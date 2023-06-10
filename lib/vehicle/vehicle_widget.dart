@@ -75,19 +75,23 @@ class _VehicleWidgetState extends State<VehicleWidget> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
-          leading: InkWell(
-            splashColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () async {
-              Navigator.pop(context);
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop(); // Navegar hacia atrás
             },
             child: Icon(
               Icons.arrow_back_rounded,
-              color: FlutterFlowTheme.of(context).dark400,
+              color: Color(0xFF1D2429),
               size: 24,
             ),
+          ),
+          title: Text(
+            'Tu Vehiculo',
+            style: FlutterFlowTheme.of(context).titleSmall.override(
+                  fontFamily: 'Readex Pro',
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                ),
           ),
           actions: [],
           centerTitle: false,

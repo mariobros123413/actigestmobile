@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:univiaje/brevet/brevet_widget.dart';
 
+import 'brevet/brevet_model.dart';
 import 'login/login_widget.dart';
 import 'user_session.dart';
 import 'vehicle/vehicle_model.dart';
@@ -17,6 +19,9 @@ void main() {
         ChangeNotifierProvider<VehicleModel>(
           create: (_) => VehicleModel(),
         ),
+        ChangeNotifierProvider<BrevetModel>(
+          create: (_) => BrevetModel(),
+        )
       ],
       child: MyApp(),
     ),

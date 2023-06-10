@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
+import '../brevet/brevet_model.dart';
+import '../brevet/brevet_widget.dart';
 import '../flutter_flow/flutter_flow_model.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -25,6 +27,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
   late ProfileWidgetModel _model;
   late UserSession userSession;
   late VehicleModel vehicleModel;
+  late BrevetModel brevetModel;
 
   // late UserSession userSession; // Agrega esta línea
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -39,10 +42,16 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
     vehicleModel = Provider.of<VehicleModel>(context, listen: false);
     vehicleModel.idusuario = userSession.id;
 
+    brevetModel = Provider.of<BrevetModel>(context, listen: false);
+    brevetModel.id = userSession.id;
+
     vehicleModel.fetchVehicleData();
+    brevetModel.fetchBrevetData();
+
     print('userSession.id: ${userSession.id}');
     print('userSession.nroregistro: ${userSession.nroregistro}');
     print('vehicleModel.idusuario: ${vehicleModel.id}');
+    print('brevetModel.id: ${brevetModel.id}');
   }
 
   @override
@@ -350,16 +359,25 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                             child: Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Text(
-                                'Editar Brevet',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .override(
-                                      fontFamily: 'Plus Jakarta Sans',
-                                      color: Color(0xFF14181B),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BrevetWidget()),
+                                  );
+                                },
+                                child: Text(
+                                  'Editar Brevet',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .override(
+                                        fontFamily: 'Plus Jakarta Sans',
+                                        color: Color(0xFF14181B),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                ),
                               ),
                             ),
                           ),
