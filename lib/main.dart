@@ -10,6 +10,8 @@ import 'user_session.dart';
 import 'vehicle/vehicle_model.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     MultiProvider(
       providers: [

@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:univiaje/user_session.dart';
+import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
+import 'dart:io';
 
 import '../flutter_flow/flutter_flow_model.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -10,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
 
 class BrevetModel extends ChangeNotifier {
   int? id;
@@ -22,6 +27,8 @@ class BrevetModel extends ChangeNotifier {
   bool isDataLoaded = false;
   DateTime? datePicked1;
   DateTime? datePicked2;
+  String? imageUrl;
+
   @override
   notifyListeners();
   BrevetModel(
@@ -33,7 +40,7 @@ class BrevetModel extends ChangeNotifier {
       this.fecexpedicion,
       this.fecvencimiento});
 
-  Future<void> fetchBrevetData() async {
+  Future<void> fetchBrevetData(BuildContext context) async {
     print('haciendo el userssion');
     print(id);
     final url = 'https://apiuniviaje-production.up.railway.app/api/brevet/$id';
@@ -54,8 +61,27 @@ class BrevetModel extends ChangeNotifier {
           final fecexpedicion = userData['fecexpedicion'];
           final fecvencimiento = userData['fecvencimiento'];
           isDataLoaded = true;
+          //mostrar los datos en el body
+          if (foto != null && foto!.isNotEmpty) {
+            // Cargar la imagen desde la API si la variable foto no está vacía
+            final imageBytes = await base64.decode(foto!);
 
-          // Actualizar los controladores con los nuevos valores
+            // Cargar la imagen decodificada utilizando Image.memory
+            uploadedLocalFile = await FFUploadedFile(bytes: imageBytes);
+          } else {
+            // La variable foto es null o está vacía, asignar una imagen de internet
+            final placeholderUrl =
+                'https://abi.bo/images/Noticias/Deportes/ene-22/licencia-electronica.jpg';
+            final placeholderResponse =
+                await http.get(Uri.parse(placeholderUrl));
+            if (placeholderResponse.statusCode == 200) {
+              // Decodificar los bytes de la imagen de internet
+              final placeholderBytes = await placeholderResponse.bodyBytes;
+
+              // Cargar la imagen de internet utilizando Image.memory
+              uploadedLocalFile = await FFUploadedFile(bytes: placeholderBytes);
+            }
+          }
           ciController.text = ci.toString();
           nombreController.text = nombre ?? '';
           catlicenciaController.text = catlicencia.toString();
@@ -79,6 +105,8 @@ class BrevetModel extends ChangeNotifier {
     }
   }
 
+// ...
+
   Future<void> updateBrevetData() async {
     final url = 'https://apiuniviaje-production.up.railway.app/api/brevet/$id';
     print(id);
@@ -86,15 +114,19 @@ class BrevetModel extends ChangeNotifier {
       final body = {
         'ci': ciController.text,
         'nombre': nombreController.text,
+        'foto': '', // Actualizar la foto más adelante
         'catlicencia': catlicenciaController.text.toString(),
-        'fecexpedicion': DateFormat('yyyy-MM-dd')
-            .format(datePicked1!), // Formatear fecha a yyyy-MM-dd
-        'fecvencimiento': DateFormat('yyyy-MM-dd')
-            .format(datePicked2!), // Formatear fecha a yyyy-MM-dd
+        'fecexpedicion': DateFormat('yyyy-MM-dd').format(datePicked1!),
+        'fecvencimiento': DateFormat('yyyy-MM-dd').format(datePicked2!),
       };
-      print(
-          'Body de la solicitud: $body'); // Imprimir el cuerpo de la solicitud
+      print('Body de la solicitud: $body');
 
+      if (uploadedLocalFile!.bytes != null) {
+        // Si hay una imagen cargada en el contenedor
+        final encodedImage = await base64.encode(uploadedLocalFile.bytes!);
+        body['foto'] = await encodedImage;
+      }
+      // print(body['foto']);
       final response = await http.put(
         Uri.parse(url),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},

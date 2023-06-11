@@ -81,19 +81,21 @@ class _VehicleCopyWidgetState extends State<BrevetWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Row(
-                    // mainAxisSize: MainAxisSize.max,
-                    // children: [
-                    //   ClipRRect(
-                    //     borderRadius: BorderRadius.circular(0),
-                    //     child: CachedNetworkImage(
-                    //       imageUrl: '',
-                    //       width: MediaQuery.of(context).size.width,
-                    //       height: 200,
-                    //       fit: BoxFit.cover,
-                    //     ),
-                    //   ),
-                    // ],
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(0),
+                      child: _model.uploadedLocalFile.bytes != null
+                          ? Image.memory(
+                              _model.uploadedLocalFile.bytes!,
+                              width: MediaQuery.of(context).size.width,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            )
+                          : Container(),
                     ),
+                  ],
+                ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 16),
                   child: Row(
@@ -446,7 +448,7 @@ class _VehicleCopyWidgetState extends State<BrevetWidget> {
                   child: FFButtonWidget(
                     onPressed: () {
                       _model.updateBrevetData().then((_) {
-                        SnackBar(content: Text('Cambios guardados'));
+                        const SnackBar(content: Text('Cambios guardados'));
                       }).catchError((error) {
                         SnackBar(content: Text('Error al guardar los cambios'));
                       });
