@@ -30,7 +30,7 @@ class UserSession with ChangeNotifier {
 
   Future<void> fetchUserData() async {
     final url =
-        'https://apiuniviaje-production.up.railway.app/api/usuario/$nroregistro';
+        'https://apiuniviaje-pgport.up.railway.app/api/usuario/$nroregistro';
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -45,16 +45,16 @@ class UserSession with ChangeNotifier {
           fotoperfil = userData['fotoperfil'];
           carrera = userData['carrera'];
           preferenciasviaje = userData['preferenciasviaje'];
-
           vehicleModel.idusuario = id;
-
           notifyListeners();
+
           print('User data fetched successfully. ID: $id');
         } else {
           print('No se encontraron datos de usuario');
         }
       } else {
-        print('Error en la solicitud: ${response.statusCode}');
+        print(
+            'Error en la solicitud: ${response.statusCode} fetchUserData user_session');
       }
     } catch (e) {
       print('Excepción durante la solicitud: $e');

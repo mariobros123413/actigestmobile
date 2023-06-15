@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:univiaje/brevet/brevet_widget.dart';
+import 'package:univiaje/profile/profile_widget.dart';
 
 import 'brevet/brevet_model.dart';
 import 'login/login_widget.dart';
@@ -17,6 +18,9 @@ void main() {
       providers: [
         ChangeNotifierProvider<UserSession>(
           create: (_) => UserSession(),
+        ),
+        ChangeNotifierProvider<ProfileModel>(
+          create: (_) => ProfileModel(),
         ),
         ChangeNotifierProvider<VehicleModel>(
           create: (_) => VehicleModel(),

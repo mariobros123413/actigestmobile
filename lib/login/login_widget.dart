@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../profile/profile_widget.dart';
+import '../menu_profile/mprofile_widget.dart';
 import '../user_session.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<bool> login(int nroregistro, String password) async {
-    final url = 'https://apiuniviaje-production.up.railway.app/api/login';
+    final url = 'https://apiuniviaje-pgport.up.railway.app/api/login';
 
     final loginData = {
       'nroregistro': nroregistro.toString(),
@@ -45,14 +45,6 @@ class _LoginWidgetState extends State<LoginWidget> {
         print('Respuesta del servidor: $responseData');
         // Verifica si el inicio de sesión fue exitoso en base a la respuesta de la API
         if (responseData.containsKey('token')) {
-          // Crear una instancia de User con los datos del usuario que inició sesión
-          // LoginModel currentUser =
-          //     LoginModel(nroregistro: nroregistro, password: password);
-
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => ProfileWidgetWidget()),
-          // );
           UserSession userSession =
               Provider.of<UserSession>(context, listen: false);
 
@@ -67,7 +59,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           return false;
         }
       } else {
-        print('Error en la solicitud: ${response.statusCode}');
+        print('Error en la solicitud: ${response.statusCode} auth');
 
         return false;
       }
@@ -341,7 +333,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                             int nroregistro = int.tryParse(
                                     _model.nroRegistroController.text) ??
                                 0;
-
                             String password = _model.passwordController.text;
                             // Llamar a la función de inicio de sesión
                             login(nroregistro, password).then((success) {
@@ -351,7 +342,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   userSession =
                                       UserSession(nroregistro: nroregistro);
 
-                                  userSession.nroregistro = nroregistro.toInt();
+                                  userSession.nroregistro = nroregistro;
                                 } catch (e) {
                                   print('Excepción durante la solicitud: $e');
                                 }

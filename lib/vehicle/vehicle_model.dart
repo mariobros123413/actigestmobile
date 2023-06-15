@@ -25,7 +25,6 @@ class VehicleModel extends ChangeNotifier {
   bool isDataLoaded = false;
 
   @override
-  notifyListeners();
   VehicleModel({
     this.id,
     this.idusuario,
@@ -38,21 +37,17 @@ class VehicleModel extends ChangeNotifier {
   });
 
   Future<void> fetchVehicleData() async {
-    print('haciendo el userssion');
-    print(idusuario);
     final url =
-        'https://apiuniviaje-production.up.railway.app/api/vehiculo/$idusuario';
-    print('object');
-    print(idusuario);
+        'https://apiuniviaje-pgport.up.railway.app/api/vehiculo/$idusuario';
     try {
       final response = await http.get(Uri.parse(url));
-      print(response.body.toString());
       if (response.statusCode == 200) {
         final userList = jsonDecode(response.body) as List<dynamic>;
+        print('userlist: $userList');
         if (userList.isNotEmpty) {
           final userData = userList[0] as Map<String, dynamic>;
           id = userData['id'];
-          this.idusuario = userData['idusuario'];
+          idusuario = userData['idusuario'];
           nroplaca = userData['nroplaca'];
           modelo = userData['modelo'];
           anio = userData['anio'];
@@ -69,7 +64,6 @@ class VehicleModel extends ChangeNotifier {
           fotovehiculoController.text = fotovehiculo?.toString() ?? '';
           caracteristicasespecialesController.text =
               caracteristicasespeciales ?? '';
-          print(nroplacaController.text.toString());
           print('Vehicle data fetched successfully. ID: $id');
 
           // notifyListeners();
@@ -89,8 +83,9 @@ class VehicleModel extends ChangeNotifier {
 
   Future<void> updateVehicleData() async {
     final url =
-        'https://apiuniviaje-production.up.railway.app/api/vehiculo/$idusuario';
-    print(idusuario);
+        'https://apiuniviaje-pgport.up.railway.app/api/vehiculo/$idusuario';
+    print('idusuario updateveichle: $idusuario');
+    // print('datos para updatevehicledata: ')
     try {
       final response = await http.put(
         Uri.parse(url),
@@ -100,14 +95,12 @@ class VehicleModel extends ChangeNotifier {
           'modelo': modeloController.text,
           'anio': anioController.text.toString(),
           'capacidad': capacidadController.text.toString(),
-          'fotovehiculo': fotovehiculoController.text,
+          // 'fotovehiculo': fotovehiculoController.text,
           'caracteristicasespeciales': caracteristicasespecialesController.text,
         },
       );
-
       if (response.statusCode == 200) {
-        print('Datos del vehículo actualizados');
-        // notifyListeners();
+        notifyListeners();
       } else {
         print('Error en la solicitud: ${response.statusCode} updateVehiculo');
       }
@@ -118,7 +111,7 @@ class VehicleModel extends ChangeNotifier {
 
   Future<void> createVehicle() async {
     final url =
-        'https://apiuniviaje-production.up.railway.app/api/vehiculocreate/$idusuario';
+        'https://apiuniviaje-pgport.up.railway.app/api/vehiculocreate/$idusuario';
     print(idusuario);
 
     try {
@@ -138,19 +131,19 @@ class VehicleModel extends ChangeNotifier {
 
   Future<bool> hasDuplicateVehicles() async {
     final url =
-        'https://apiuniviaje-production.up.railway.app/api/vehiculo/$idusuario';
+        'https://apiuniviaje-pgport.up.railway.app/api/vehiculo/$idusuario';
 
     try {
       final response = await http.get(Uri.parse(url));
-      print(response.body.toString());
       if (response.statusCode == 200) {
         final userList = jsonDecode(response.body) as List<dynamic>;
         final filteredList = userList
             .where((userData) => userData['idusuario'] == idusuario)
             .toList();
-        return filteredList.length > 1;
+        return filteredList.length > 0;
       } else {
-        print('Error en la solicitud: ${response.statusCode}');
+        print(
+            'Error en la solicitud: ${response.statusCode} hasDuplicateVehicles');
       }
     } catch (e) {
       print('Excepción durante la solicitud getVehiculo: $e');
