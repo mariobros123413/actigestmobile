@@ -9,6 +9,7 @@ import 'brevet/brevet_model.dart';
 import 'login/login_widget.dart';
 import 'user_session.dart';
 import 'vehicle/vehicle_model.dart';
+import 'home/home_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,9 @@ void main() {
         ),
         ChangeNotifierProvider<BrevetModel>(
           create: (_) => BrevetModel(),
+        ),
+        ChangeNotifierProvider<HomeModel>(
+          create: (_) => HomeModel(),
         )
       ],
       child: MyApp(),
@@ -80,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => LoginWidget()),
+            MaterialPageRoute(builder: (context) => HomeWidget()),
           );
         },
         tooltip: 'Increment',
