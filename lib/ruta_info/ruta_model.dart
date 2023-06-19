@@ -1,61 +1,55 @@
-import '../flutter_flow/flutter_flow_animations.dart';
-// import '/flutter_flow/flutter_flow_expanded_image_view.dart';
-import '../flutter_flow/flutter_flow_icon_button.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../ruta_info/ruta_model.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
-
-/// Initialization and disposal methods.
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-//
-class HomeModel extends ChangeNotifier {
+// import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_google_map.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+
+class RutaModel extends ChangeNotifier {
   FocusNode? unfocusNode; // Declaración con nullable
   int? id;
-  String? imageUrl;
-  String? title;
-  String? stars;
-  DateTime? horariosal;
-  DateTime? horariolleg;
-  List<HomeModel>? apiDataList;
+  String? inicio;
+  String? finals;
+  String? asientos;
+  DateTime? destino;
+  String? paradaintermedia;
+  String? posactual;
+  List<RutaModel>? apiDataList;
+  LatLng? currentLocation;
 
-  HomeModel(
+  RutaModel(
       {this.id,
-      this.imageUrl,
-      this.title,
-      this.stars,
-      this.horariosal,
-      this.apiDataList,
-      this.horariolleg});
-  // final unfocusNode = FocusNode();
+      this.inicio,
+      this.finals,
+      this.asientos,
+      this.destino,
+      this.paradaintermedia,
+      this.posactual});
 
-// Dentro de la clase HomeModel
+  ///  State fields for stateful widgets in this page.
   Future<void> fetchApiData() async {
+    print(id);
     try {
       final response = await http.get(
-          Uri.parse('https://apiuniviaje-pgport.up.railway.app/api/rutas'));
+          Uri.parse('https://apiuniviaje-pgport.up.railway.app/api/ruta/$id'));
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as List<dynamic>;
 
         // Mapear los datos de la respuesta a instancias de HomeModel
         final apiData = data
-            .map((item) => HomeModel(
-                  id: item['id'],
-                  imageUrl: item['fotovehiculo'],
-                  title: item['destino'],
-                  horariosal: DateTime.parse(item['horariosalida']),
-                  horariolleg: DateTime.parse(item['horarioregreso']),
-                  stars: item['puntuacion'].toString(),
-                ))
+            .map((item) => RutaModel(
+                inicio: item['inicio'],
+                finals: item['final'],
+                asientos: item['asientos'],
+                destino: item['destino'],
+                paradaintermedia: item['paradaintermedia'],
+                posactual: item['posactual']))
             .toList();
 
         // Hacer algo con los datos obtenidos, por ejemplo, almacenarlos en una lista en la clase HomeModel
@@ -70,6 +64,7 @@ class HomeModel extends ChangeNotifier {
       print('ERROR fetchApiData() : $error');
     }
   }
+
 // ...
 
   String formatTime(DateTime dateTime) {
@@ -87,13 +82,15 @@ class HomeModel extends ChangeNotifier {
     return null;
   }
 
+  // State field(s) for GoogleMap widget.
+  LatLng? googleMapsCenter;
+  final googleMapsController = Completer<GoogleMapController>();
+
+  /// Initialization and disposal methods.
+
   void initState(BuildContext context) {}
 
-  void dispose() {
-    unfocusNode?.dispose(); // Llama a dispose si unfocusNode no es null
-    unfocusNode = null; // Establece unfocusNode en null
-    super.dispose();
-  }
+  void dispose() {}
 
   /// Action blocks are added here.
 

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../ruta_info/ruta_model.dart';
+import '../ruta_info/ruta_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 // import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -497,7 +499,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Hero(
-                                          tag: 'locationImage',
+                                          tag: 'locationImage_${cardData.id}',
                                           transitionOnUserGestures: true,
                                           child: ClipRRect(
                                             borderRadius:
@@ -595,28 +597,46 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                             ],
                                           ),
                                         ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(4, 0, 0, 0),
-                                              child: Text(
-                                                'View Now',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium,
+                                        GestureDetector(
+                                          onTap: () {
+                                            final rutaModel =
+                                                Provider.of<RutaModel>(context,
+                                                    listen: false);
+                                            rutaModel
+                                                    .id = // asigna el id de la ruta seleccionada
+                                                cardData.id;
+                                            rutaModel.fetchApiData();
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RutaWidget(),
                                               ),
-                                            ),
-                                            Icon(
-                                              Icons.navigate_next,
-                                              color: Colors.black,
-                                              size: 24,
-                                            ),
-                                          ],
-                                        ),
+                                            );
+                                          },
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(4, 0, 0, 0),
+                                                child: Text(
+                                                  'Mirar ahora',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .labelMedium,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.navigate_next,
+                                                color: Colors.black,
+                                                size: 24,
+                                              ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -625,7 +645,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                           // Aquí termina el bucle
                           if (_model.apiDataList == null)
                             Text(
-                              'Al parecer no hay ninguna ruta vigente',
+                              'Al parecer no hay ninguna ruta previa',
                               style: FlutterFlowTheme.of(context).bodyMedium,
                             ),
                         ],

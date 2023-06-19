@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:univiaje/brevet/brevet_widget.dart';
 import 'package:univiaje/profile/profile_widget.dart';
+import 'package:univiaje/ruta_info/ruta_model.dart';
+import 'package:univiaje/ruta_info/ruta_widget.dart';
 
 import 'brevet/brevet_model.dart';
 import 'login/login_widget.dart';
@@ -31,6 +33,9 @@ void main() {
         ),
         ChangeNotifierProvider<HomeModel>(
           create: (_) => HomeModel(),
+        ),
+        ChangeNotifierProvider<RutaModel>(
+          create: (_) => RutaModel(),
         )
       ],
       child: MyApp(),
@@ -48,13 +53,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           // Configura el tema
           ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(key: GlobalKey(), title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({required Key key, required this.title});
 
   final String title;
 
