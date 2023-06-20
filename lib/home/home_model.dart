@@ -44,6 +44,8 @@ class HomeModel extends ChangeNotifier {
       final response = await http.get(
           Uri.parse('https://apiuniviaje-pgport.up.railway.app/api/rutas'));
       if (response.statusCode == 200) {
+        print(response.body);
+
         final data = json.decode(response.body) as List<dynamic>;
 
         // Mapear los datos de la respuesta a instancias de HomeModel

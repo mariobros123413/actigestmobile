@@ -1,4 +1,7 @@
-import '../flutter_flow/flutter_flow_google_map.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
+    as gmf;
+
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -22,11 +25,18 @@ class _RutaWidgetState extends State<RutaWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   late Location location;
+  Set<gm.Marker> _markers = {};
+  gm.CameraPosition _initialCameraPosition = gm.CameraPosition(
+    target: gm.LatLng(0, 0),
+    zoom: 14,
+  );
 
   @override
   void initState() {
     super.initState();
     _model = Provider.of<RutaModel>(context, listen: false);
+    _model
+        .fetchApiData(); // Llamar al método fetchApiData para obtener los datos de la ruta
 
     // Inicializar la instancia de Location
     location = Location();
@@ -56,8 +66,31 @@ class _RutaWidgetState extends State<RutaWidget> {
 
   Future<void> startLocationUpdates() async {
     location.onLocationChanged.listen((LocationData currentLocation) {
-      // Aquí puedes recibir las actualizaciones de ubicación en currentLocation
-      // Puedes utilizar los datos de ubicación para mostrarlo en tu mapa o realizar otras operaciones.
+      if (mounted) {
+        setState(() {
+          // Actualizar la posición del marcador
+          final marker = gm.Marker(
+            markerId: gm.MarkerId('currentLocation'),
+            position: gm.LatLng(
+              currentLocation.latitude!,
+              currentLocation.longitude!,
+            ),
+          );
+
+          _markers = {marker}; // Actualizar el conjunto de marcadores
+
+          // Actualizar la posición de la cámara inicial
+          _initialCameraPosition = gm.CameraPosition(
+            target: gm.LatLng(
+              currentLocation.latitude!,
+              currentLocation.longitude!,
+            ),
+            zoom: 14,
+          );
+
+          // Puedes ajustar el nivel de zoom y la posición de la cámara aquí si lo deseas
+        });
+      }
     });
   }
 
@@ -76,26 +109,69 @@ class _RutaWidgetState extends State<RutaWidget> {
               Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Expanded(
-                    child: FlutterFlowGoogleMap(
-                      controller: _model.googleMapsController,
-                      onCameraIdle: (latLng) =>
-                          _model.googleMapsCenter = latLng,
-                      initialLocation: _model.googleMapsCenter ??=
-                          LatLng(13.106061, -59.613158),
-                      markerColor: GoogleMarkerColor.violet,
-                      mapType: MapType.normal,
-                      style: GoogleMapStyle.standard,
-                      initialZoom: 14.0,
-                      allowInteraction: true,
-                      allowZoom: true,
-                      showZoomControls: true,
-                      showLocation: true,
-                      showCompass: false,
-                      showMapToolbar: false,
-                      showTraffic: false,
-                      centerMapOnMarkerTap: true,
-                    ),
+                  Consumer<RutaModel>(
+                    builder: (context, model, _) {
+                      if (model.inicioLatLng == null ||
+                          model.finalLatLng == null) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        final inicioLatLng = gmf.LatLng(
+                          model.inicioLatLng!.latitude,
+                          model.inicioLatLng!.longitude,
+                        );
+                        final finalLatLng = gmf.LatLng(
+                          model.finalLatLng!.latitude,
+                          model.finalLatLng!.longitude,
+                        );
+                        final List<gmf.LatLng> waypointsList =
+                            _model.waypointsList?.map((latLng) {
+                                  return gmf.LatLng(
+                                      latLng.latitude, latLng.longitude);
+                                }).toList() ??
+                                [];
+                        final List<gmf.LatLng> polylinePoints = [
+                          inicioLatLng,
+                          ...waypointsList,
+                          finalLatLng
+                        ];
+
+                        // Agregar marcadores para "Inicio" y "Final"
+                        final inicioMarker = gm.Marker(
+                          markerId: gm.MarkerId('inicioMarker'),
+                          position: inicioLatLng,
+                          infoWindow: gm.InfoWindow(title: 'Inicio'),
+                        );
+                        final finalMarker = gm.Marker(
+                          markerId: gm.MarkerId('finalMarker'),
+                          position: finalLatLng,
+                          infoWindow: gm.InfoWindow(title: 'Final'),
+                        );
+
+                        // Actualizar el conjunto de marcadores
+                        _markers = {inicioMarker, finalMarker};
+                        return Expanded(
+                          // Agrega el Expanded widget aquí
+
+                          child: gm.GoogleMap(
+                            initialCameraPosition: gmf.CameraPosition(
+                                target: inicioLatLng, zoom: 14),
+                            polylines: {
+                              gmf.Polyline(
+                                polylineId: gmf.PolylineId('ruta'),
+                                color: Colors.blue,
+                                width: 3,
+                                points: polylinePoints,
+                              ),
+                            },
+                            markers: _markers,
+                            myLocationEnabled:
+                                true, // Habilitar la ubicación actual
+                            myLocationButtonEnabled:
+                                true, // Habilitar el botón de ubicación actual
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
@@ -189,7 +265,8 @@ class _RutaWidgetState extends State<RutaWidget> {
                                         alignment:
                                             AlignmentDirectional(0.0, 0.0),
                                         child: Text(
-                                          'Parada Intermedia',
+                                          _model.paradaintermedia ??
+                                              'Na', // Utiliza la propiedad correspondiente del modelo
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium,
                                         ),
@@ -232,7 +309,7 @@ class _RutaWidgetState extends State<RutaWidget> {
                                             ),
                                           ),
                                           Text(
-                                            '3',
+                                            _model.asientos.toString(),
                                             style: FlutterFlowTheme.of(context)
                                                 .headlineLarge,
                                           ),
@@ -260,7 +337,7 @@ class _RutaWidgetState extends State<RutaWidget> {
                                             ),
                                           ),
                                           Text(
-                                            'Uagrm',
+                                            _model.destino ?? 'Na',
                                             style: FlutterFlowTheme.of(context)
                                                 .headlineLarge
                                                 .override(

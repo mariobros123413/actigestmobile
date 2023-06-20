@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
+    as gmf;
 
 // import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_google_map.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
+import 'package:google_map_polyline_new/google_map_polyline_new.dart';
+
+import '../flutter_flow/flutter_flow_google_map.dart';
+import '../flutter_flow/flutter_flow_icon_button.dart';
+import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,12 +20,15 @@ class RutaModel extends ChangeNotifier {
   int? id;
   String? inicio;
   String? finals;
-  String? asientos;
-  DateTime? destino;
+  LatLng? inicioLatLng;
+  LatLng? finalLatLng;
+  int? asientos;
+  String? destino;
   String? paradaintermedia;
-  String? posactual;
-  List<RutaModel>? apiDataList;
+  // List<RutaModel>? apiDataList; //YA NO LO USO
   LatLng? currentLocation;
+
+  List<gmf.LatLng>? waypointsList;
 
   RutaModel(
       {this.id,
@@ -29,42 +36,80 @@ class RutaModel extends ChangeNotifier {
       this.finals,
       this.asientos,
       this.destino,
-      this.paradaintermedia,
-      this.posactual});
+      this.paradaintermedia});
 
-  ///  State fields for stateful widgets in this page.
   Future<void> fetchApiData() async {
-    print(id);
-    try {
-      final response = await http.get(
-          Uri.parse('https://apiuniviaje-pgport.up.railway.app/api/ruta/$id'));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body) as List<dynamic>;
+    // Resto del código...
 
-        // Mapear los datos de la respuesta a instancias de HomeModel
-        final apiData = data
-            .map((item) => RutaModel(
-                inicio: item['inicio'],
-                finals: item['final'],
-                asientos: item['asientos'],
-                destino: item['destino'],
-                paradaintermedia: item['paradaintermedia'],
-                posactual: item['posactual']))
-            .toList();
+    final response = await http.get(
+        Uri.parse('https://apiuniviaje-pgport.up.railway.app/api/ruta/$id'));
 
-        // Hacer algo con los datos obtenidos, por ejemplo, almacenarlos en una lista en la clase HomeModel
-        // Por ejemplo, asumiendo que tienes una lista llamada 'apiDataList' en HomeModel
-        apiDataList = apiData;
-        notifyListeners(); // Notificar a los listeners que los datos han sido actualizados
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body) as List<dynamic>;
+      final userData = data[0] as Map<String, dynamic>;
+      id = userData['id'];
+      asientos = userData['asientos'];
+      destino = userData['destino'];
+      paradaintermedia = userData['paradaintermedia'];
+      // Obtener el primer elemento de la lista de datos
+      final item = data.first;
+      print('paradaintermedia: $paradaintermedia');
+      // Obtener las coordenadas de inicio y final
+      final LatLng inicioLatLng = LatLng(
+        double.parse(item['inicio'].split(',')[0]),
+        double.parse(item['inicio'].split(',')[1]),
+      );
+      final LatLng finalLatLng = LatLng(
+        double.parse(item['final'].split(',')[0]),
+        double.parse(item['final'].split(',')[1]),
+      );
+      this.inicioLatLng = inicioLatLng;
+      this.finalLatLng = finalLatLng;
+      // Obtener la ruta utilizando la API de Google Maps Directions
+      final directionsResponse = await http.get(
+        Uri.parse('https://maps.googleapis.com/maps/api/directions/json'
+            '?destination=${finalLatLng.latitude},${finalLatLng.longitude}'
+            '&origin=${inicioLatLng.latitude},${inicioLatLng.longitude}'
+            '&key='),
+      );
+      final directionsData = json.decode(directionsResponse.body);
+
+      final GoogleMapPolyline googleMapPolyline = GoogleMapPolyline(apiKey: '');
+      if (directionsResponse.statusCode == 200) {
+        if (directionsData['routes'] != null &&
+            directionsData['routes'].isNotEmpty) {
+          final route = directionsData['routes'][0];
+
+          if (route['overview_polyline'] != null &&
+              route['overview_polyline']['points'] != null) {
+            final gmf.LatLng originLatLng =
+                gmf.LatLng(inicioLatLng.latitude, inicioLatLng.longitude);
+            final gmf.LatLng destinationLatLng =
+                gmf.LatLng(finalLatLng.latitude, finalLatLng.longitude);
+
+            final List<gmf.LatLng> waypoints =
+                (await googleMapPolyline.getCoordinatesWithLocation(
+              origin: originLatLng,
+              destination: destinationLatLng,
+              mode: RouteMode.driving,
+            ))!
+                    .cast<gmf.LatLng>();
+
+            waypointsList = waypoints.cast<gmf.LatLng>();
+            // Resto del código...
+          } else {
+            // Manejar el caso de que no haya puntos de coordenadas en la respuesta
+          }
+        } else {
+          // Manejar el caso de que no haya rutas en la respuesta
+        }
       } else {
-        // Manejar el caso de error en la respuesta de la API
+        // Manejar el caso de error en la respuesta de la API de direcciones
       }
-    } catch (error) {
-      // Manejar el error de la solicitud HTTP
-      print('ERROR fetchApiData() : $error');
     }
+    notifyListeners();
+    // Resto del código...
   }
-
 // ...
 
   String formatTime(DateTime dateTime) {

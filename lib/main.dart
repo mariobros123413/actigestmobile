@@ -9,6 +9,7 @@ import 'package:univiaje/ruta_info/ruta_widget.dart';
 
 import 'brevet/brevet_model.dart';
 import 'login/login_widget.dart';
+import 'menu_profile/mprofile_widget.dart';
 import 'user_session.dart';
 import 'vehicle/vehicle_model.dart';
 import 'home/home_widget.dart';
