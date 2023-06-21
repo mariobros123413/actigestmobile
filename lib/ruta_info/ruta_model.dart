@@ -70,12 +70,12 @@ class RutaModel extends ChangeNotifier {
         Uri.parse('https://maps.googleapis.com/maps/api/directions/json'
             '?destination=${finalLatLng.latitude},${finalLatLng.longitude}'
             '&origin=${inicioLatLng.latitude},${inicioLatLng.longitude}'
-            '&key=AIzaSyDCTVlXYBc5P3caFSXF8VS-fT7F4OddVTI'),
+            '&key=h'),
       );
       final directionsData = json.decode(directionsResponse.body);
 
       final GoogleMapPolyline googleMapPolyline =
-          GoogleMapPolyline(apiKey: 'AIzaSyDCTVlXYBc5P3caFSXF8VS-fT7F4OddVTI');
+          GoogleMapPolyline(apiKey: 'h');
       if (directionsResponse.statusCode == 200) {
         if (directionsData['routes'] != null &&
             directionsData['routes'].isNotEmpty) {
