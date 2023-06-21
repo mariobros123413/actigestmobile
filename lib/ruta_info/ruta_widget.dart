@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
     as gmf;
+import 'package:univiaje/home/home_widget.dart';
 
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -62,6 +65,32 @@ class _RutaWidgetState extends State<RutaWidget> {
       // Los permisos de ubicación están otorgados, puedes iniciar la obtención de ubicación.
       startLocationUpdates();
     }
+  }
+
+  Future<void> _delayedPop(BuildContext context) async {
+    unawaited(
+      Navigator.of(context, rootNavigator: true).push(
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            ),
+          ),
+          transitionDuration: Duration.zero,
+          barrierDismissible: false,
+          barrierColor: Colors.black45,
+          opaque: false,
+        ),
+      ),
+    );
+    await Future.delayed(const Duration(seconds: 1));
+    Navigator.of(context)
+      ..pop()
+      ..pop();
   }
 
   Future<void> startLocationUpdates() async {
@@ -196,8 +225,8 @@ class _RutaWidgetState extends State<RutaWidget> {
                         color: Colors.white,
                         size: 24.0,
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // Navegar hacia atrás
+                      onPressed: () async {
+                        _delayedPop(context);
                       },
                     ),
                   ),

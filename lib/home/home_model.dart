@@ -27,19 +27,22 @@ class HomeModel extends ChangeNotifier {
   DateTime? horariosal;
   DateTime? horariolleg;
   List<HomeModel>? apiDataList;
+  bool isLoading = false;
 
-  HomeModel(
-      {this.id,
-      this.imageUrl,
-      this.title,
-      this.stars,
-      this.horariosal,
-      this.apiDataList,
-      this.horariolleg});
+  HomeModel({
+    this.id,
+    this.imageUrl,
+    this.title,
+    this.stars,
+    this.horariosal,
+    this.apiDataList,
+    this.horariolleg,
+  });
   // final unfocusNode = FocusNode();
 
 // Dentro de la clase HomeModel
   Future<void> fetchApiData() async {
+    isLoading = true;
     try {
       final response = await http.get(
           Uri.parse('https://apiuniviaje-pgport.up.railway.app/api/rutas'));
@@ -62,6 +65,7 @@ class HomeModel extends ChangeNotifier {
 
         // Hacer algo con los datos obtenidos, por ejemplo, almacenarlos en una lista en la clase HomeModel
         // Por ejemplo, asumiendo que tienes una lista llamada 'apiDataList' en HomeModel
+        isLoading = false;
         apiDataList = apiData;
         notifyListeners(); // Notificar a los listeners que los datos han sido actualizados
       } else {

@@ -81,6 +81,32 @@ class _LoginWidgetState extends State<LoginWidget> {
     super.dispose();
   }
 
+  Future<void> _delayedPop(BuildContext context) async {
+    unawaited(
+      Navigator.of(context, rootNavigator: true).push(
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            ),
+          ),
+          transitionDuration: Duration.zero,
+          barrierDismissible: false,
+          barrierColor: Colors.black45,
+          opaque: false,
+        ),
+      ),
+    );
+    await Future.delayed(const Duration(seconds: 1));
+    Navigator.of(context)
+      ..pop()
+      ..pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../menu_profile/mprofile_widget.dart';
+import '../public_ruta/public_ruta_widget.dart';
 import '../ruta_info/ruta_model.dart';
 import '../ruta_info/ruta_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -28,7 +29,6 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
   late HomeModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final animationsMap = {
@@ -415,7 +415,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                   EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                               child: FFButtonWidget(
                                 onPressed: () {
-                                  print('Button pressed ...');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PublicRutaWidget()),
+                                  );
                                 },
                                 text: 'Comparte Ahora!',
                                 options: FFButtonOptions(
