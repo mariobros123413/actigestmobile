@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../menu_profile/mprofile_widget.dart';
 import '../ruta_info/ruta_model.dart';
 import '../ruta_info/ruta_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -213,7 +214,11 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                     size: 24,
                   ),
                   onPressed: () {
-                    print('IconButton pressed ...');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileWidgetWidget()),
+                    );
                   },
                 ),
               ),

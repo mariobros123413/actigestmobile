@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../home/home_widget.dart';
 import '../profile/profile_model.dart';
 import '../profile/profile_widget.dart';
 import '../user_session.dart';
@@ -38,8 +39,10 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
   final _unfocusNode = FocusNode();
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    _model = Provider.of<ProfileWidgetModel>(context, listen: false);
+
     userSession = Provider.of<UserSession>(context, listen: false);
     userSession.fetchUserData();
 
@@ -91,7 +94,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
               size: 30,
             ),
             onPressed: () {
-              print('IconButton pressed ...');
+              Navigator.of(context).pop(); // Navegar hacia atrás
             },
           ),
           title: Text(

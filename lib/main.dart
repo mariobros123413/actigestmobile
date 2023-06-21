@@ -23,6 +23,9 @@ void main() {
         ChangeNotifierProvider<UserSession>(
           create: (_) => UserSession(),
         ),
+        ChangeNotifierProvider<ProfileWidgetModel>(
+          create: (_) => ProfileWidgetModel(),
+        ),
         ChangeNotifierProvider<ProfileModel>(
           create: (_) => ProfileModel(),
         ),
@@ -90,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomeWidget()),
+            MaterialPageRoute(builder: (context) => LoginWidget()),
           );
         },
         tooltip: 'Increment',
