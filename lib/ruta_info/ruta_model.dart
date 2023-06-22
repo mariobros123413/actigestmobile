@@ -18,6 +18,7 @@ import 'package:http/http.dart' as http;
 class RutaModel extends ChangeNotifier {
   FocusNode? unfocusNode; // Declaración con nullable
   int? id;
+  int? idusuarioconductor;
   String? inicio;
   String? finals;
   LatLng? inicioLatLng;
@@ -32,6 +33,7 @@ class RutaModel extends ChangeNotifier {
 
   RutaModel(
       {this.id,
+      this.idusuarioconductor,
       this.inicio,
       this.finals,
       this.asientos,
@@ -48,6 +50,7 @@ class RutaModel extends ChangeNotifier {
       final data = json.decode(response.body) as List<dynamic>;
       final userData = data[0] as Map<String, dynamic>;
       id = userData['id'];
+      idusuarioconductor = userData['idusuarioconductor'];
       asientos = userData['asientos'];
       destino = userData['destino'];
       paradaintermedia = userData['paradaintermedia'];
@@ -111,7 +114,39 @@ class RutaModel extends ChangeNotifier {
     notifyListeners();
     // Resto del código...
   }
+
 // ...
+  Future<void> crearPeticion(
+      String? horadeseada, String? ubicacionrecogida) async {
+    int? idruta = this.id;
+    final url =
+        'https://apiuniviaje-pgport.up.railway.app/api/solicitud/$idusuarioconductor/$idruta';
+    print(idusuarioconductor);
+    try {
+      final body = <String, dynamic>{
+        'ubicacionrecogida': ubicacionrecogida,
+        'destino': this.destino,
+        'horadeseadaviaje': horadeseada,
+        'aceptacion': false.toString()
+      };
+      print('Body de la solicitud: $body');
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        print('Datos de la petición Creada');
+        // notifyListeners();
+      } else {
+        print('Error en la solicitud: ${response.statusCode} crearPeticion');
+      }
+    } catch (e) {
+      print('Excepción durante la solicitud crearPeticion: $e');
+    }
+  }
 
   String formatTime(DateTime dateTime) {
     final formatter = DateFormat('HH:mm');

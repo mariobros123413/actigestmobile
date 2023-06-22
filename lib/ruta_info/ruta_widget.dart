@@ -26,6 +26,8 @@ class _RutaWidgetState extends State<RutaWidget> {
   late RutaModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  gm.LatLng? _pickupLatLng;
+  TimeOfDay? _selectedTime;
 
   late Location location;
   Set<gm.Marker> _markers = {};
@@ -182,8 +184,14 @@ class _RutaWidgetState extends State<RutaWidget> {
                           // Agrega el Expanded widget aquí
 
                           child: gm.GoogleMap(
-                            initialCameraPosition: gmf.CameraPosition(
-                                target: inicioLatLng, zoom: 14),
+                            initialCameraPosition: gm.CameraPosition(
+                              target: _pickupLatLng ??
+                                  inicioLatLng, // Usar la posición del nuevo punto seleccionado si está presente, de lo contrario usar la posición inicial
+                              zoom: _pickupLatLng != null
+                                  ? 16.0
+                                  : 14.0, // Ajustar el nivel de zoom si hay un nuevo punto seleccionado
+                            ),
+
                             polylines: {
                               gmf.Polyline(
                                 polylineId: gmf.PolylineId('ruta'),
@@ -192,7 +200,28 @@ class _RutaWidgetState extends State<RutaWidget> {
                                 points: polylinePoints,
                               ),
                             },
-                            markers: _markers,
+                            onTap: (gm.LatLng latLng) {
+                              setState(() {
+                                _pickupLatLng = latLng;
+                              });
+                            },
+                            markers: {
+                              ..._markers,
+                              if (_pickupLatLng != null)
+                                gm.Marker(
+                                  markerId: gm.MarkerId('pickupMarker'),
+                                  position: _pickupLatLng!,
+                                  icon:
+                                      gm.BitmapDescriptor.defaultMarkerWithHue(
+                                          gm.BitmapDescriptor.hueGreen),
+                                  onTap: () {
+                                    setState(() {
+                                      _pickupLatLng =
+                                          null; // Eliminar el punto seleccionado al hacer tap en el marcador
+                                    });
+                                  },
+                                ),
+                            },
                             myLocationEnabled:
                                 true, // Habilitar la ubicación actual
                             myLocationButtonEnabled:
@@ -376,33 +405,143 @@ class _RutaWidgetState extends State<RutaWidget> {
                                           ),
                                         ],
                                       ),
-                                      Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 0.0, 8.0),
-                                            child: Text(
-                                              'Hacer Petición',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        color:
-                                                            Color(0xFF57636C),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                padding: EdgeInsets.all(16),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      'Seleccionar Hora',
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
+                                                    ),
+                                                    SizedBox(height: 16),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        showTimePicker(
+                                                          context: context,
+                                                          initialTime:
+                                                              TimeOfDay.now(),
+                                                        ).then((selectedTime) {
+                                                          setState(() {
+                                                            _selectedTime =
+                                                                selectedTime;
+                                                          });
+                                                        });
+                                                      },
+                                                      child: Text(
+                                                          'Seleccionar Hora'),
+                                                    ),
+                                                    SizedBox(height: 16),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        String? ubicacion;
+                                                        ubicacion =
+                                                            _pickupLatLng
+                                                                .toString()
+                                                                .replaceAll(
+                                                                    'LatLng(',
+                                                                    '')
+                                                                .replaceAll(
+                                                                    ')', '');
+                                                        print(
+                                                            'ubicacion: $ubicacion');
+// Obtener la fecha actual del dispositivo
+                                                        DateTime now =
+                                                            DateTime.now();
+
+                                                        // Crear una instancia de DateTime con la fecha actual y la hora seleccionada
+                                                        DateTime
+                                                            selectedDateTime =
+                                                            DateTime(
+                                                          now.year,
+                                                          now.month,
+                                                          now.day,
+                                                          _selectedTime!.hour,
+                                                          _selectedTime!.minute,
+                                                        );
+
+                                                        // Formatear la fecha y hora seleccionada en el formato deseado "yyyy-mm-dd hh:mm"
+                                                        String
+                                                            formattedDateTime =
+                                                            DateFormat(
+                                                                    'yyyy-MM-dd HH:mm')
+                                                                .format(
+                                                                    selectedDateTime);
+
+                                                        // Enviar la petición
+                                                        _model.crearPeticion(
+                                                            formattedDateTime,
+                                                            ubicacion);
+
+                                                        // Mostrar el modal de "OK"
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              title:
+                                                                  Text('Éxito'),
+                                                              content: Text(
+                                                                  'La petición se realizó con éxito.'),
+                                                              actions: [
+                                                                ElevatedButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context); // Cerrar el modal de "OK"
+                                                                  },
+                                                                  child: Text(
+                                                                      'OK'),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      child: Text('Enviar'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 0.0, 0.0, 8.0),
+                                              child: Text(
+                                                'Hacer Petición',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Outfit',
+                                                          color:
+                                                              Color(0xFF57636C),
+                                                        ),
+                                              ),
                                             ),
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_outlined,
-                                            color: Color(0xFF0C0202),
-                                            size: 40.0,
-                                          ),
-                                        ],
+                                            Icon(
+                                              Icons.arrow_forward_outlined,
+                                              color: Color(0xFF0C0202),
+                                              size: 40.0,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
