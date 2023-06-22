@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../peticiones/peticiones_widget.dart';
 import '../user_session.dart';
 import 'public_ruta_model.dart';
 export 'public_ruta_model.dart';
@@ -753,6 +754,12 @@ class _PublicRutaWidgetState extends State<PublicRutaWidget> {
                                               content: Text(
                                                   'Error al guardar los cambios'));
                                         });
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PeticionesWidget()),
+                                        );
                                       },
                                       text: 'Crear',
                                       options: FFButtonOptions(

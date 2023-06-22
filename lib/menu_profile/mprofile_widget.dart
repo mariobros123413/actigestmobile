@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:univiaje/peticiones/peticiones_widget.dart';
+
 import '../brevet/brevet_model.dart';
 import '../brevet/brevet_widget.dart';
 import '../flutter_flow/flutter_flow_model.dart';
@@ -388,6 +390,73 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                 },
                                 child: Text(
                                   'Editar Brevet',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .override(
+                                        fontFamily: 'Plus Jakarta Sans',
+                                        color: Color(0xFF14181B),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: AlignmentDirectional(0.9, 0),
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color(0xFF57636C),
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: Color(0x3416202A),
+                          offset: Offset(0, 2),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Icon(
+                            Icons.people_outline_rounded,
+                            color: Color(0xFF1D2429),
+                            size: 24,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PeticionesWidget()),
+                                  );
+                                },
+                                child: Text(
+                                  'Ver Peticiones de Viaje',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(

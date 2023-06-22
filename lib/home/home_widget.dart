@@ -154,6 +154,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
       ],
     ),
   };
+  late bool _showNotification;
 
   @override
   void initState() {
@@ -166,6 +167,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
           !anim.applyInitialState),
       this,
     );
+
+    _showNotification = false;
   }
 
   @override
