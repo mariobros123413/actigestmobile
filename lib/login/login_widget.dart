@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unused_import, avoid_print
 
 import 'package:provider/provider.dart';
-import 'package:univiaje/home/home_widget.dart';
+import '../home/home_widget.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';

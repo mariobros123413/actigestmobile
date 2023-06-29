@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:univiaje/peticiones/peticiones_widget.dart';
+import '../peticiones/peticiones_widget.dart';
 
 import '../brevet/brevet_model.dart';
 import '../brevet/brevet_widget.dart';

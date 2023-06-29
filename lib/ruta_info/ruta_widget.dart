@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
     as gmf;
-import 'package:univiaje/home/home_widget.dart';
+import '../home/home_widget.dart';
 
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';

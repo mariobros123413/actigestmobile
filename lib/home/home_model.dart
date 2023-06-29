@@ -41,41 +41,7 @@ class HomeModel extends ChangeNotifier {
   // final unfocusNode = FocusNode();
 
 // Dentro de la clase HomeModel
-  Future<void> fetchApiData() async {
-    isLoading = true;
-    try {
-      final response = await http.get(
-          Uri.parse('https://apiuniviaje-pgport.up.railway.app/api/rutas'));
-      if (response.statusCode == 200) {
-        print(response.body);
-
-        final data = json.decode(response.body) as List<dynamic>;
-
-        // Mapear los datos de la respuesta a instancias de HomeModel
-        final apiData = data
-            .map((item) => HomeModel(
-                  id: item['id'],
-                  imageUrl: item['fotovehiculo'],
-                  title: item['destino'],
-                  horariosal: DateTime.parse(item['horariosalida']),
-                  horariolleg: DateTime.parse(item['horarioregreso']),
-                  stars: item['puntuacion'].toString(),
-                ))
-            .toList();
-
-        // Hacer algo con los datos obtenidos, por ejemplo, almacenarlos en una lista en la clase HomeModel
-        // Por ejemplo, asumiendo que tienes una lista llamada 'apiDataList' en HomeModel
-        isLoading = false;
-        apiDataList = apiData;
-        notifyListeners(); // Notificar a los listeners que los datos han sido actualizados
-      } else {
-        // Manejar el caso de error en la respuesta de la API
-      }
-    } catch (error) {
-      // Manejar el error de la solicitud HTTP
-      print('ERROR fetchApiData() : $error');
-    }
-  }
+  Future<void> fetchApiData() async {}
 // ...
 
   String formatTime(DateTime dateTime) {

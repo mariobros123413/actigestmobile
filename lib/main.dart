@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:univiaje/brevet/brevet_widget.dart';
-import 'package:univiaje/peticiones/peticiones_model.dart';
-import 'package:univiaje/profile/profile_widget.dart';
-import 'package:univiaje/public_ruta/public_ruta_model.dart';
-import 'package:univiaje/ruta_info/ruta_model.dart';
-import 'package:univiaje/ruta_info/ruta_widget.dart';
+import '../brevet/brevet_widget.dart';
+import '../peticiones/peticiones_model.dart';
+import '../profile/profile_widget.dart';
+import '../public_ruta/public_ruta_model.dart';
+import '../ruta_info/ruta_model.dart';
+import '../ruta_info/ruta_widget.dart';
 
 import 'brevet/brevet_model.dart';
 import 'login/login_widget.dart';

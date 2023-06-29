@@ -41,81 +41,9 @@ class PublicRutaModel extends ChangeNotifier {
       this.destino,
       this.paradaintermedia});
 
-  Future<void> updateRoute(List<gmf.LatLng> routePoints) async {
-    final directionsResponse = await http.get(
-      Uri.parse('https://maps.googleapis.com/maps/api/directions/json'
-          '?destination=${routePoints.last.latitude},${routePoints.last.longitude}'
-          '&origin=${routePoints.first.latitude},${routePoints.first.longitude}'
-          '&key=AIzaSyDCTVlXYBc5P3caFSXF8VS-fT7F4OddVTI'),
-    );
-    final directionsData = json.decode(directionsResponse.body);
+  Future<void> updateRoute(List<gmf.LatLng> routePoints) async {}
 
-    final GoogleMapPolyline googleMapPolyline =
-        GoogleMapPolyline(apiKey: 'AIzaSyDCTVlXYBc5P3caFSXF8VS-fT7F4OddVTI');
-    if (directionsResponse.statusCode == 200) {
-      if (directionsData['routes'] != null &&
-          directionsData['routes'].isNotEmpty) {
-        final route = directionsData['routes'][0];
-
-        if (route['overview_polyline'] != null &&
-            route['overview_polyline']['points'] != null) {
-          final gmf.LatLng originLatLng = gmf.LatLng(
-              routePoints.first.latitude, routePoints.first.longitude);
-          final gmf.LatLng destinationLatLng =
-              gmf.LatLng(routePoints.last.latitude, routePoints.last.longitude);
-
-          final List<gmf.LatLng> waypoints =
-              (await googleMapPolyline.getCoordinatesWithLocation(
-            origin: originLatLng,
-            destination: destinationLatLng,
-            mode: RouteMode.driving,
-          ))!
-                  .cast<gmf.LatLng>();
-          waypointsList = waypoints;
-        }
-      }
-    } else {
-      // Manejar el caso en que no se obtenga la polilínea correctamente
-    }
-  }
-
-  Future<void> createRuta() async {
-    final url =
-        'https://apiuniviaje-pgport.up.railway.app/api/ruta/$idusuarioconductor';
-    print(idusuarioconductor);
-    print('inicio: $inicioLatLng');
-    try {
-      final body = <String, dynamic>{
-        'horariosalida': horasalidaController.text,
-        'horarioregreso': horaregresoController.text,
-        'paradaintermedia': paradaintermediaController.text,
-        'asientos': asientosController.text,
-        // 'destino': datePicked1 != null
-        //     ? DateFormat('yyyy-MM-dd').format(datePicked1!)
-        //     : '',
-        'destino': destinoController.text,
-        'inicio': this.inicio,
-        'final': this.finals,
-        'estado': true.toString(),
-      };
-      print('Body de la solicitud: $body');
-
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: body,
-      );
-
-      if (response.statusCode == 200) {
-        print('Datos de la ruta Creada');
-        // notifyListeners();
-      } else {
-        print('Error en la solicitud: ${response.statusCode} createRuta');
-      }
-    } catch (e) {
-      print('Excepción durante la solicitud createRuta: $e');
-    }
-  }
+  Future<void> createRuta() async {}
 
   // Completer<GoogleMapController> _controllerCompleter =
   //     Completer<GoogleMapController>();
