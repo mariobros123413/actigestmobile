@@ -2,14 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../brevet/brevet_widget.dart';
+import 'activo/activo_widget.dart';
 import '../peticiones/peticiones_model.dart';
-import '../profile/profile_widget.dart';
-import '../public_ruta/public_ruta_model.dart';
-import '../ruta_info/ruta_model.dart';
-import '../ruta_info/ruta_widget.dart';
+import 'profile/cactivo_widget.dart';
 
-import 'brevet/brevet_model.dart';
+import 'activo/activo_model.dart';
 import 'login/login_widget.dart';
 import 'menu_profile/mprofile_widget.dart';
 import 'user_session.dart';
@@ -25,6 +22,9 @@ void main() {
         ChangeNotifierProvider<UserSession>(
           create: (_) => UserSession(),
         ),
+        ChangeNotifierProvider<ActivoModel>(
+          create: (_) => ActivoModel(),
+        ),
         ChangeNotifierProvider<ProfileWidgetModel>(
           create: (_) => ProfileWidgetModel(),
         ),
@@ -37,17 +37,8 @@ void main() {
         ChangeNotifierProvider<VehicleModel>(
           create: (_) => VehicleModel(),
         ),
-        ChangeNotifierProvider<BrevetModel>(
-          create: (_) => BrevetModel(),
-        ),
         ChangeNotifierProvider<HomeModel>(
           create: (_) => HomeModel(),
-        ),
-        ChangeNotifierProvider<RutaModel>(
-          create: (_) => RutaModel(),
-        ),
-        ChangeNotifierProvider<PublicRutaModel>(
-          create: (_) => PublicRutaModel(),
         )
       ],
       child: MyApp(),

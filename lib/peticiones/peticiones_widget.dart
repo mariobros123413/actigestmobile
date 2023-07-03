@@ -147,12 +147,12 @@ class _PeticionesWidgetState extends State<PeticionesWidget> {
                                   padding: EdgeInsets.all(2),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(40),
-                                    child: Image.memory(
-                                      base64Decode(cardData.foto ?? ''),
-                                      width: double.infinity,
-                                      height: 220,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    // child: Image.memory(
+                                    //   base64Decode(cardData.foto ?? ''),
+                                    //   width: double.infinity,
+                                    //   height: 220,
+                                    //   fit: BoxFit.cover,
+                                    // ),
                                   ),
                                 ),
                               ),

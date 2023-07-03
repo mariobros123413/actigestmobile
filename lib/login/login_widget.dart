@@ -29,13 +29,10 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<bool> login(int nroregistro, String password) async {
-    final url = 'https://apiuniviaje-pgport.up.railway.app/api/login';
+  Future<bool> login(String nroregistro, String password) async {
+    final url = 'https://apisi2.up.railway.app/api/usuarM';
 
-    final loginData = {
-      'nroregistro': nroregistro.toString(),
-      'password': password
-    };
+    final loginData = {'usuario': nroregistro.toString(), 'contra': password};
     print('Respuesta del servidor REGISTRO: $nroregistro');
 
     print('Respuesta del servidor PASSWORD: $password');
@@ -43,17 +40,14 @@ class _LoginWidgetState extends State<LoginWidget> {
       final response = await http.post(Uri.parse(url), body: loginData);
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
-        print('Respuesta del servidor: $responseData');
         // Verifica si el inicio de sesión fue exitoso en base a la respuesta de la API
-        if (responseData.containsKey('token')) {
+        if (responseData == "1") {
           UserSession userSession =
               Provider.of<UserSession>(context, listen: false);
 
           // Asigna el valor de nroregistro al iniciar sesión correctamente
           userSession.nroregistro = nroregistro;
           await userSession.fetchUserData(); // Obtener los datos del usuario
-
-          // ProfileWidgetWidget();
 
           return true;
         } else {
@@ -120,7 +114,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           image: DecorationImage(
             fit: BoxFit.cover,
             image: Image.network(
-              'https://i.pinimg.com/736x/66/89/dd/6689ddba1c1952adaa583f2046a072c1.jpg',
+              'https://scontent.fvvi1-2.fna.fbcdn.net/v/t1.15752-9/357993249_811039503796468_777590915532820229_n.png?_nc_cat=109&ccb=1-7&_nc_sid=ae9488&_nc_ohc=erUBhdqGeN8AX8bw6os&_nc_ht=scontent.fvvi1-2.fna&oh=03_AdRXib1EbwVlTpHhSKrtw57x5rS9Uew1ShvDHCtcnJjb_Q&oe=64C91B2D',
             ).image,
           ),
           shape: BoxShape.rectangle,
@@ -140,7 +134,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
-                          'https://scontent.fvvi1-1.fna.fbcdn.net/v/t1.15752-9/350658000_771292328008602_2470519729000480572_n.png?_nc_cat=101&ccb=1-7&_nc_sid=ae9488&_nc_ohc=1leBU0mkiQcAX_jJlNa&_nc_ht=scontent.fvvi1-1.fna&oh=03_AdTMEPAOYfvo5zfrZSdhGHMS3pEZXCVmshzTnu7Jmz4cYg&oe=649F517C',
+                          'https://scontent.fvvi1-2.fna.fbcdn.net/v/t1.15752-9/357987377_1298359894405196_5292298633824816883_n.png?_nc_cat=111&ccb=1-7&_nc_sid=ae9488&_nc_ohc=ZGM3wCamvAIAX8Z_98x&_nc_ht=scontent.fvvi1-2.fna&oh=03_AdRFmFZzX3aT8Iu60NOiifOkWdCniv13zIVSgneu572FEw&oe=64C92525',
                           width: MediaQuery.of(context).size.width * 0.823,
                           height: MediaQuery.of(context).size.height * 0.2,
                           fit: BoxFit.fitWidth,
@@ -175,12 +169,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 24.0),
                         child: Text(
-                          'Comparte tu ruta, conecta con compañeros.',
+                          'Tome el control con nuestra plataforma de gestión y seguimiento de activos!',
                           style: FlutterFlowTheme.of(context)
                               .headlineSmall
                               .override(
                                 fontFamily: 'Outfit',
-                                color: Colors.black,
+                                color: const Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -198,7 +192,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         controller: _model.nroRegistroController,
                         obscureText: false,
                         decoration: InputDecoration(
-                          labelText: 'Número de Registro',
+                          labelText: 'Nombre de Usuario',
                           labelStyle: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
@@ -206,7 +200,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 color:
                                     FlutterFlowTheme.of(context).secondaryText,
                               ),
-                          hintText: 'Escribe tu número de registro aquí ',
+                          hintText: 'Escribe tu usuario aquí ',
                           hintStyle: FlutterFlowTheme.of(context)
                               .bodySmall
                               .override(
@@ -357,9 +351,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                         child: FFButtonWidget(
                           onPressed: () {
                             // Obtener los valores ingresados en los campos de correo y contraseña
-                            int nroregistro = int.tryParse(
-                                    _model.nroRegistroController.text) ??
-                                0;
+                            String nroregistro =
+                                _model.nroRegistroController.text;
                             String password = _model.passwordController.text;
                             // Llamar a la función de inicio de sesión
                             login(nroregistro, password).then((success) {
@@ -377,7 +370,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      // builder: (_) => LoginWidget()),
                                       builder: (context) => HomeWidget()),
                                 );
                               } else {
@@ -424,19 +416,3 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 }
-
-// class NextScreen extends StatelessWidget {
-//   const NextScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Next Screen'),
-//       ),
-//       body: Center(
-//         child: Text('Welcome to the next screen!'),
-//       ),
-//     );
-//   }
-// }

@@ -7,7 +7,7 @@ import './vehicle/vehicle_model.dart';
 
 class UserSession with ChangeNotifier {
   int? id;
-  int? nroregistro;
+  String? nroregistro;
   String? correo;
   String? nombre;
   int? celular;

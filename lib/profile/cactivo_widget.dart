@@ -1,3 +1,4 @@
+import '../activo/activo_model.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -7,18 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import './profile_model.dart';
-export './profile_model.dart';
+import 'cactivo_model.dart';
+export 'cactivo_model.dart';
 
-class ProfileWidget extends StatefulWidget {
-  const ProfileWidget({Key? key}) : super(key: key);
+class CactivoWidget extends StatefulWidget {
+  const CactivoWidget({Key? key}) : super(key: key);
 
   @override
-  _ProfileWidgetState createState() => _ProfileWidgetState();
+  _CactivoWidgetState createState() => _CactivoWidgetState();
 }
 
-class _ProfileWidgetState extends State<ProfileWidget> {
-  late ProfileModel _model;
+class _CactivoWidgetState extends State<CactivoWidget> {
+  late ActivoModel _model;
   final _unfocusNode = FocusNode();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -27,7 +28,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   void initState() {
     super.initState();
     // _model = createModel(context, () => ProfileModel());
-    _model = Provider.of<ProfileModel>(context, listen: false);
+    _model = Provider.of<ActivoModel>(context, listen: false);
   }
 
   @override
@@ -81,14 +82,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(0),
-                      child: _model.uploadedLocalFile.bytes != null
-                          ? Image.memory(
-                              _model.uploadedLocalFile.bytes!,
-                              width: MediaQuery.of(context).size.width,
-                              height: 200,
-                              fit: BoxFit.cover,
-                            )
-                          : Container(),
+                      child: Image.network(
+                        'https://uploadgerencie.com/imagenes/concepto-o-definicion-de-activo-fijo.png',
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ],
                 ),
@@ -172,65 +171,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(18, 0, 10, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        'Tu número de Registro:',
-                        style: FlutterFlowTheme.of(context).bodyMedium,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-                          child: TextFormField(
-                              controller: _model.nroregistroController,
-                              readOnly: true,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                errorBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedErrorBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              style: FlutterFlowTheme.of(context).bodyMedium),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
                   child: TextFormField(
-                      controller: _model.correoController,
+                      controller: _model.descripcionController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Correo electrónico',
+                        labelText: 'Descripción',
                         labelStyle: FlutterFlowTheme.of(context).labelMedium,
                         hintStyle: FlutterFlowTheme.of(context).labelMedium,
                         enabledBorder: OutlineInputBorder(
@@ -269,10 +215,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
                   child: TextFormField(
-                      controller: _model.nombreController,
+                      controller: _model.diaController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Nombre completo',
+                        labelText: 'Dia de Compra',
                         labelStyle: FlutterFlowTheme.of(context).labelMedium,
                         hintStyle: FlutterFlowTheme.of(context).labelMedium,
                         enabledBorder: OutlineInputBorder(
@@ -311,10 +257,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
                   child: TextFormField(
-                      controller: _model.celularController,
+                      controller: _model.costoController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Número de celular',
+                        labelText: 'Costo del Activo',
                         labelStyle: FlutterFlowTheme.of(context).labelMedium,
                         hintStyle: FlutterFlowTheme.of(context).labelMedium,
                         enabledBorder: OutlineInputBorder(
@@ -353,10 +299,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
                   child: TextFormField(
-                      controller: _model.carreraController,
+                      controller: _model.lugarController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Carrera actual',
+                        labelText: 'Lugar de compra del Activo',
                         labelStyle:
                             FlutterFlowTheme.of(context).labelMedium.override(
                                   fontFamily: 'Lexend Deca',
@@ -394,13 +340,16 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
                   child: TextFormField(
-                      controller: _model.horarioclasesController,
+                      controller: _model.marcaController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Horarios de clases',
-                        labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                        labelText: 'Marca del Activo',
+                        labelStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Lexend Deca',
+                                ),
                         hintStyle: FlutterFlowTheme.of(context).labelMedium,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -430,20 +379,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
                       ),
-                      style: FlutterFlowTheme.of(context).bodyMedium,
-                      maxLines: 5),
+                      style: FlutterFlowTheme.of(context).bodyMedium),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
                   child: TextFormField(
-                      controller: _model.preferenciasviajeController,
+                      controller: _model.modeloController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Preferencias de viaje',
-                        labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                        labelText: 'Modelo',
+                        labelStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Lexend Deca',
+                                ),
                         hintStyle: FlutterFlowTheme.of(context).labelMedium,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -473,23 +422,63 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
                       ),
-                      style: FlutterFlowTheme.of(context).bodyMedium,
-                      maxLines: 5),
+                      style: FlutterFlowTheme.of(context).bodyMedium),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                  child: TextFormField(
+                      controller: _model.serialController,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        labelText: 'Serial',
+                        labelStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Lexend Deca',
+                                ),
+                        hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).alternate,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).primary,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      style: FlutterFlowTheme.of(context).bodyMedium),
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
                   child: FFButtonWidget(
                     onPressed: () {
-                      _model.updateUsuarioData().then((_) {
+                      _model.createActivo().then((_) {
                         const SnackBar(content: Text('Cambios guardados'));
                       }).catchError((error) {
                         SnackBar(content: Text('Error al guardar los cambios'));
                       });
                     },
-                    text: 'Guardar Cambios',
+                    text: 'Crear Activo',
                     options: FFButtonOptions(
                       width: 230,
                       height: 50,

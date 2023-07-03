@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
@@ -17,55 +15,56 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
-import 'package:http_parser/http_parser.dart';
 
-class BrevetModel extends ChangeNotifier {
+class ProfileModel extends ChangeNotifier {
   int? id;
-  int? ci;
+  String? nroregistro;
+  String? password;
+  String? correo;
   String? nombre;
-  String? foto;
-  String? catlicencia;
-  DateTime? fecexpedicion;
-  DateTime? fecvencimiento;
+  int? celular;
+  String? fotoperfil;
+  String? carrera;
+  String? horarioclases;
+  String? preferenciasviaje;
   bool isDataLoaded = false;
-  DateTime? datePicked1;
-  DateTime? datePicked2;
   String? imageUrl;
 
   @override
-  BrevetModel(
+  ProfileModel(
       {this.id,
-      this.ci,
+      this.nroregistro,
+      this.password,
+      this.correo,
       this.nombre,
-      this.foto,
-      this.catlicencia,
-      this.fecexpedicion,
-      this.fecvencimiento});
+      this.celular,
+      this.fotoperfil,
+      this.carrera,
+      this.horarioclases,
+      this.preferenciasviaje});
 
-  Future<void> fetchBrevetData(BuildContext context) async {}
+  Future<void> fetchProfileData(BuildContext context) async {}
 
 // ...
 
-  Future<void> updateBrevetData() async {}
+  Future<void> updateUsuarioData() async {}
 
-  Future<void> createBrevet() async {}
-
-  Future<bool> hasDuplicateBrevets() async {
-    return true;
-  }
-  // late BrevetModel BrevetModel;
+  Future<void> createUsuario() async {}
 
   final unfocusNode = FocusNode();
   bool isDataUploading = false;
   FFUploadedFile uploadedLocalFile =
       FFUploadedFile(bytes: Uint8List.fromList([]));
 
-  final ciController = TextEditingController();
+  final idController = TextEditingController();
+  final nroregistroController = TextEditingController();
+  final passwordController = TextEditingController();
+  final correoController = TextEditingController();
   final nombreController = TextEditingController();
-  final catlicenciaController = TextEditingController();
-  final fecexpedicionController = TextEditingController();
-  final fecvencimientoController = TextEditingController();
-
+  final celularController = TextEditingController();
+  final carreraController = TextEditingController();
+  final horarioclasesController = TextEditingController();
+  final preferenciasviajeController = TextEditingController();
   TextEditingController? textController4;
 
   void dispose() {

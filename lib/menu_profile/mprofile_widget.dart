@@ -4,8 +4,8 @@ import 'dart:convert';
 
 import '../peticiones/peticiones_widget.dart';
 
-import '../brevet/brevet_model.dart';
-import '../brevet/brevet_widget.dart';
+import '../activo/activo_model.dart';
+import '../activo/activo_widget.dart';
 import '../flutter_flow/flutter_flow_model.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -16,8 +16,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../home/home_widget.dart';
-import '../profile/profile_model.dart';
-import '../profile/profile_widget.dart';
+import '../profile/cactivo_model.dart';
+import '../profile/cactivo_widget.dart';
 import '../user_session.dart';
 import '../vehicle/vehicle_widget.dart';
 import 'mprofile_model.dart';
@@ -34,7 +34,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
   late ProfileWidgetModel _model;
   late UserSession userSession;
   late VehicleModel vehicleModel;
-  late BrevetModel brevetModel;
+  late ActivoModel brevetModel;
   late ProfileModel profileModel;
   // late UserSession userSession; // Agrega esta línea
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -51,14 +51,13 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
     vehicleModel = Provider.of<VehicleModel>(context, listen: false);
     vehicleModel.idusuario = userSession.id;
 
-    brevetModel = Provider.of<BrevetModel>(context, listen: false);
+    brevetModel = Provider.of<ActivoModel>(context, listen: false);
     brevetModel.id = userSession.id;
 
     profileModel = Provider.of<ProfileModel>(context, listen: false);
     profileModel.nroregistro = userSession.nroregistro;
 
     vehicleModel.fetchVehicleData();
-    brevetModel.fetchBrevetData(context);
     profileModel.fetchProfileData(context);
 
     print('userSession.id: ${userSession.id}');
@@ -217,7 +216,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 0),
                   child: Text(
-                    'Account',
+                    'Gestiones de Activo Fijo',
                     style: FlutterFlowTheme.of(context).labelLarge.override(
                           fontFamily: 'Plus Jakarta Sans',
                           color: Color(0xFF57636C),
@@ -249,64 +248,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Icon(
-                            Icons.attach_money_rounded,
-                            color: Color(0xFF57636C),
-                            size: 24,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Text(
-                                'Opciones de Pago',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .override(
-                                      fontFamily: 'Plus Jakarta Sans',
-                                      color: Color(0xFF14181B),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: AlignmentDirectional(0.9, 0),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Color(0xFF57636C),
-                              size: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 5,
-                          color: Color(0x3416202A),
-                          offset: Offset(0, 2),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.carSide,
+                            Icons.line_style_outlined,
                             color: Color(0xFF57636C),
                             size: 24,
                           ),
@@ -319,11 +261,11 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => VehicleWidget()),
+                                        builder: (context) => ActivoWidget()),
                                   );
                                 },
                                 child: Text(
-                                  'Editar Vehículo',
+                                  'Lista de Activos Fijos',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
@@ -372,7 +314,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Icon(
-                            Icons.notifications_none,
+                            Icons.carpenter,
                             color: Color(0xFF57636C),
                             size: 24,
                           ),
@@ -385,11 +327,11 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BrevetWidget()),
+                                        builder: (context) => CactivoWidget()),
                                   );
                                 },
                                 child: Text(
-                                  'Editar Brevet',
+                                  'Crear Activo Fijo',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
@@ -438,7 +380,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Icon(
-                            Icons.people_outline_rounded,
+                            Icons.line_style_outlined,
                             color: Color(0xFF1D2429),
                             size: 24,
                           ),
@@ -456,7 +398,141 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                   );
                                 },
                                 child: Text(
-                                  'Ver Peticiones de Viaje',
+                                  'Lista de Mantenimientos',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .override(
+                                        fontFamily: 'Plus Jakarta Sans',
+                                        color: Color(0xFF14181B),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: AlignmentDirectional(0.9, 0),
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color(0xFF57636C),
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: Color(0x3416202A),
+                          offset: Offset(0, 2),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Icon(
+                            Icons.carpenter,
+                            color: Color(0xFF1D2429),
+                            size: 24,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PeticionesWidget()),
+                                  );
+                                },
+                                child: Text(
+                                  'Crear Mantenimiento',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .override(
+                                        fontFamily: 'Plus Jakarta Sans',
+                                        color: Color(0xFF14181B),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: AlignmentDirectional(0.9, 0),
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color(0xFF57636C),
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: Color(0x3416202A),
+                          offset: Offset(0, 2),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Icon(
+                            Icons.qr_code_2_rounded,
+                            color: Color(0xFF1D2429),
+                            size: 24,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PeticionesWidget()),
+                                  );
+                                },
+                                child: Text(
+                                  'Parametrización por QR',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
@@ -515,11 +591,11 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                   EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProfileWidget()),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => ProfileWidget()),
+                                  // );
                                 },
                                 child: Text(
                                   'Editar Perfil',

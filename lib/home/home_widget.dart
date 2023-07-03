@@ -1,9 +1,6 @@
 import 'dart:convert';
 
 import '../menu_profile/mprofile_widget.dart';
-import '../public_ruta/public_ruta_widget.dart';
-import '../ruta_info/ruta_model.dart';
-import '../ruta_info/ruta_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 // import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -418,12 +415,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                   EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                               child: FFButtonWidget(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PublicRutaWidget()),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) =>
+                                  //           PublicRutaWidget()),
+                                  // );
                                 },
                                 text: 'Comparte Ahora!',
                                 options: FFButtonOptions(
@@ -612,20 +609,20 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            final rutaModel =
-                                                Provider.of<RutaModel>(context,
-                                                    listen: false);
-                                            rutaModel
-                                                    .id = // asigna el id de la ruta seleccionada
-                                                cardData.id;
-                                            rutaModel.fetchApiData();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    RutaWidget(),
-                                              ),
-                                            );
+                                            // final rutaModel =
+                                            //     Provider.of<RutaModel>(context,
+                                            //         listen: false);
+                                            // rutaModel
+                                            //         .id = // asigna el id de la ruta seleccionada
+                                            //     cardData.id;
+                                            // rutaModel.fetchApiData();
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //     builder: (context) =>
+                                            //         RutaWidget(),
+                                            //   ),
+                                            // );
                                           },
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
