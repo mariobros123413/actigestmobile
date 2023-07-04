@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'activo/activo_widget.dart';
 import '../peticiones/peticiones_model.dart';
-import 'profile/cactivo_widget.dart';
+import 'activo/cactivo_widget.dart';
 
 import 'activo/activo_model.dart';
 import 'login/login_widget.dart';
@@ -30,9 +30,6 @@ void main() {
         ),
         ChangeNotifierProvider<PeticionesModel>(
           create: (_) => PeticionesModel(),
-        ),
-        ChangeNotifierProvider<ProfileModel>(
-          create: (_) => ProfileModel(),
         ),
         ChangeNotifierProvider<VehicleModel>(
           create: (_) => VehicleModel(),

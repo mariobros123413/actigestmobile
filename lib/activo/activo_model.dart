@@ -60,7 +60,7 @@ class ActivoModel extends ChangeNotifier {
                       ? DateTime.parse(item['diacompra'])
                       : null,
                   costo: item['costo'],
-                  lugar: item['lugarCompra'],
+                  lugar: item['lugarcompra'],
                   marca: item['marca'],
                   modelo: item['modelo'],
                   serial: item['serial'],
@@ -83,15 +83,24 @@ class ActivoModel extends ChangeNotifier {
 
 // ...
 
-  Future<void> updateActivoData(int? id) async {
+  Future<void> updateActivoData(
+    int? id,
+    String? descripcion,
+    DateTime? dia,
+    int? costo,
+    String? lugar,
+    String? marca,
+    String? modelo,
+    int? serial,
+  ) async {
     final url = 'https://apisi2.up.railway.app/api/acti/$id';
     print(id);
     try {
       final body = <String, dynamic>{
         'descripcion': descripcionController.text,
-        'dia': dia != null ? DateFormat('yyyy-MM-dd').format(dia!) : '',
+        'diacompra': dia != null ? DateFormat('yyyy-MM-dd').format(dia!) : '',
         'costo': costoController.text,
-        'lugar': lugarController.text, // Actualizar la foto más adelante
+        'lugarcompra': lugarController.text,
         'marca': marcaController.text,
         'modelo': modeloController.text,
         'serial': serialController.text
@@ -124,11 +133,32 @@ class ActivoModel extends ChangeNotifier {
     final url = 'https://apisi2.up.railway.app/api/acti';
 
     try {
-      final response = await http.post(Uri.parse(url));
-      print(response.body.toString());
+      final body = <String, dynamic>{
+        'id': idController.text,
+        'descripcion': descripcionController.text,
+        'diaCompra': diaController.text,
+        'costo': costoController.text,
+        'lugarCompra': lugarController.text, // Actualizar la foto más adelante
+        'marca': marcaController.text,
+        'modelo': modeloController.text,
+        'serial': serialController.text,
+        'foto': 'a'
+      };
+      print('Body de la solicitud: $body');
+
+      // if (uploadedLocalFile != null && uploadedLocalFile.bytes != null) {
+      //   final encodedImage = await base64.encode(uploadedLocalFile.bytes!);
+      //   body['foto'] = encodedImage;
+      // }
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: body,
+      );
+
       if (response.statusCode == 200) {
-        // El vehículo se creó correctamente
-        print('Brevet creado correctamente');
+        print('Datos del activo creados');
         // notifyListeners();
       } else {
         print('Error en la solicitud: ${response.statusCode} createActivo');
@@ -143,6 +173,7 @@ class ActivoModel extends ChangeNotifier {
   bool isDataUploading = false;
   FFUploadedFile uploadedLocalFile =
       FFUploadedFile(bytes: Uint8List.fromList([]));
+  final idController = TextEditingController();
 
   final descripcionController = TextEditingController();
   final diaController = TextEditingController();

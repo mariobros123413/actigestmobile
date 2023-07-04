@@ -19,6 +19,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'edactivo_widget.dart';
+
 class ActivoWidget extends StatefulWidget {
   const ActivoWidget({Key? key}) : super(key: key);
 
@@ -44,6 +46,18 @@ class _ActivoWidgetState extends State<ActivoWidget> {
     _model.dispose();
     _unfocusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> _refreshActivos() async {
+    // Lógica para cargar nuevas solicitudes aquí
+    _model.fetchListaActivos();
+    // Esperar un tiempo simulado de 2 segundos (reemplazar con tu lógica de carga real)
+    await Future.delayed(Duration(seconds: 2));
+
+    // Actualizar el estado para mostrar las nuevas solicitudes
+    setState(() {
+      // Actualizar las solicitudes en el modelo o cargar las nuevas solicitudes aquí
+    });
   }
 
   @override
@@ -78,142 +92,150 @@ class _ActivoWidgetState extends State<ActivoWidget> {
           centerTitle: false,
           elevation: 0,
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      'Activos Fijos registrados hasta la fecha',
-                      style: FlutterFlowTheme.of(context).labelMedium,
-                    ),
-                  ],
+        body: SafeArea(
+          top: true,
+          child: RefreshIndicator(
+            onRefresh: _refreshActivos,
+            child: ListView(
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        'Activos Fijos registrados hasta la fecha',
+                        style: FlutterFlowTheme.of(context).labelMedium,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  primary: false,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    if (_model.apiDataList != null)
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      if (_model.apiDataList != null)
 
-                      // Aquí empieza el bucle para generar las cards dinámicamente
-                      for (var cardData in _model.apiDataList!)
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 8),
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 3,
-                                  color: Color(0x411D2429),
-                                  offset: Offset(0, 1),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 1, 1, 1),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(6),
-                                      child: Image.network(
-                                        'https://uploadgerencie.com/imagenes/concepto-o-definicion-de-activo-fijo.png',
-                                        width: 80,
-                                        height: 80,
-                                        fit: BoxFit.cover,
+                        // Aquí empieza el bucle para generar las cards dinámicamente
+                        for (var cardData in _model.apiDataList!)
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 8),
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 3,
+                                    color: Color(0x411D2429),
+                                    offset: Offset(0, 1),
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 1, 1, 1),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: Image.network(
+                                          'https://uploadgerencie.com/imagenes/concepto-o-definicion-de-activo-fijo.png',
+                                          width: 80,
+                                          height: 80,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8, 8, 4, 0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            cardData.descripcion ?? '',
-                                            style: FlutterFlowTheme.of(context)
-                                                .headlineSmall,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 4, 8, 0),
-                                            child: AutoSizeText(
-                                              '${cardData.marca ?? ''} ${cardData.modelo ?? ''}',
-                                              textAlign: TextAlign.start,
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            8, 8, 4, 0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              cardData.descripcion ?? '',
                                               style:
                                                   FlutterFlowTheme.of(context)
-                                                      .labelMedium,
+                                                      .headlineSmall,
                                             ),
-                                          ),
-                                        ],
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 4, 8, 0),
+                                              child: AutoSizeText(
+                                                '${cardData.marca ?? ''} ${cardData.modelo ?? ''}',
+                                                textAlign: TextAlign.start,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 4, 0, 0),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            showCustomModal(context, cardData);
-                                          },
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Color(0xFF606A85),
-                                            size: 24,
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 4, 0, 0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              showCustomModal(
+                                                  context, cardData);
+                                            },
+                                            child: Icon(
+                                              Icons.chevron_right,
+                                              color: Color(0xFF606A85),
+                                              size: 24,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 12, 4, 8),
-                                        child: Text(
-                                          '\$${cardData.costo.toString()}',
-                                          textAlign: TextAlign.end,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 12, 4, 8),
+                                          child: Text(
+                                            '\$${cardData.costo.toString()}',
+                                            textAlign: TextAlign.end,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -241,12 +263,12 @@ class _ActivoWidgetState extends State<ActivoWidget> {
                   ),
                 ),
               ),
-              Text('Modelo: ${card.id.toString() ?? ''}'),
+              Text('ID: ${card.id.toString() ?? ''}'),
               Text('Dia: ${card.dia.toString().substring(0, 10)}'),
               Text('Marca: ${card.marca ?? ''}'),
               Text('Modelo: ${card.modelo ?? ''}'),
               Text('Costo: \$${card.costo.toString()}'),
-              Text('Lugar: ${card.lugar}'),
+              Text('Lugar de Compra: ${card.lugar}'),
               Text('Marca: ${card.marca}'),
               Text('Modelo: ${card.modelo}'),
               Text('Serial: ${card.serial}'),
@@ -279,6 +301,13 @@ class _ActivoWidgetState extends State<ActivoWidget> {
           TextButton(
             onPressed: () {
               // Acción para editar el activo fijo
+              Navigator.of(context).pop(); // Cerrar el AlertDialog actual
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => EditarActivoFijoScreen(activo: card),
+                ),
+              );
             },
             child: Text('Editar'),
           ),

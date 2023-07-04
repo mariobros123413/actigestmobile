@@ -16,8 +16,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../home/home_widget.dart';
-import '../profile/cactivo_model.dart';
-import '../profile/cactivo_widget.dart';
+import '../activo/cactivo_model.dart';
+import '../activo/cactivo_widget.dart';
 import '../user_session.dart';
 import '../vehicle/vehicle_widget.dart';
 import 'mprofile_model.dart';
@@ -35,7 +35,6 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
   late UserSession userSession;
   late VehicleModel vehicleModel;
   late ActivoModel brevetModel;
-  late ProfileModel profileModel;
   // late UserSession userSession; // Agrega esta línea
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
@@ -53,12 +52,6 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
 
     brevetModel = Provider.of<ActivoModel>(context, listen: false);
     brevetModel.id = userSession.id;
-
-    profileModel = Provider.of<ProfileModel>(context, listen: false);
-    profileModel.nroregistro = userSession.nroregistro;
-
-    vehicleModel.fetchVehicleData();
-    profileModel.fetchProfileData(context);
 
     print('userSession.id: ${userSession.id}');
     print('userSession.nroregistro: ${userSession.nroregistro}');
@@ -153,21 +146,13 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                   EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: profileModel.fotoperfil != null &&
-                                        profileModel.fotoperfil!.isNotEmpty
-                                    ? Image.memory(
-                                        base64Decode(profileModel.fotoperfil!),
-                                        width: 60,
-                                        height: 60,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : CachedNetworkImage(
-                                        imageUrl:
-                                            'https://images.unsplash.com/photo-1531123414780-f74242c2b052?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDV8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=900&q=60',
-                                        width: 60,
-                                        height: 60,
-                                        fit: BoxFit.cover,
-                                      ),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      'https://images.unsplash.com/photo-1531123414780-f74242c2b052?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDV8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=900&q=60',
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),

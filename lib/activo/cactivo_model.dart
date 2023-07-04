@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 
-class ProfileModel extends ChangeNotifier {
+class CactivoModel extends ChangeNotifier {
   int? id;
   String? nroregistro;
   String? password;
@@ -31,7 +31,7 @@ class ProfileModel extends ChangeNotifier {
   String? imageUrl;
 
   @override
-  ProfileModel(
+  CactivoModel(
       {this.id,
       this.nroregistro,
       this.password,

@@ -1,4 +1,4 @@
-import '../activo/activo_model.dart';
+import 'activo_model.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -60,7 +60,7 @@ class _CactivoWidgetState extends State<CactivoWidget> {
             ),
           ),
           title: Text(
-            'Tu Perfil',
+            'Crea un Nuevo Activo Fijo',
             style: FlutterFlowTheme.of(context).titleSmall.override(
                   fontFamily: 'Readex Pro',
                   color: Colors.black,
@@ -169,6 +169,48 @@ class _CactivoWidgetState extends State<CactivoWidget> {
                       ),
                     ],
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                  child: TextFormField(
+                      controller: _model.idController,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        labelText: 'ID del nuevo activo',
+                        labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                        hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).alternate,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).primary,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding:
+                            EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
+                      ),
+                      style: FlutterFlowTheme.of(context).bodyMedium),
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
