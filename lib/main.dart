@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'mantenimiento/mantenimiento_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'activo/activo_widget.dart';
@@ -24,6 +25,9 @@ void main() {
         ),
         ChangeNotifierProvider<ActivoModel>(
           create: (_) => ActivoModel(),
+        ),
+        ChangeNotifierProvider<MantenimientoModel>(
+          create: (_) => MantenimientoModel(),
         ),
         ChangeNotifierProvider<ProfileWidgetModel>(
           create: (_) => ProfileWidgetModel(),

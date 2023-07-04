@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import '../mantenimiento/cmantenimiento_widget.dart';
+import '../mantenimiento/mantenimiento_widget.dart';
 import '../peticiones/peticiones_widget.dart';
 
 import '../activo/activo_model.dart';
@@ -379,7 +381,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            PeticionesWidget()),
+                                            MantenimientoWidget()),
                                   );
                                 },
                                 child: Text(
@@ -446,7 +448,7 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            PeticionesWidget()),
+                                            CmantenimientoWidget()),
                                   );
                                 },
                                 child: Text(

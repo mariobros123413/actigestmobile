@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:actigest/mantenimiento/cmantenimiento_widget.dart';
+
 import '../menu_profile/mprofile_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 // import '/flutter_flow/flutter_flow_expanded_image_view.dart';
@@ -235,29 +237,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 4, 0, 0),
-                        child: Text(
-                          '¿Tienes movilidad? \nCrea una ruta',
-                          style: FlutterFlowTheme.of(context).headlineMedium,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(4, 4, 0, 0),
-                        child: Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          size: 24,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                   child: Container(
                     width: double.infinity,
@@ -267,7 +246,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: Image.network(
-                          'https://gmsantacruz.gob.bo/gestion/_activos-municipales/img/paseos-turisticos/monumento-cristo-redentor-00-TSijYKiuEG.jpg',
+                          'https://scontent-lim1-1.xx.fbcdn.net/v/t1.15752-9/357993249_811039503796468_777590915532820229_n.png?_nc_cat=109&ccb=1-7&_nc_sid=ae9488&_nc_ohc=erUBhdqGeN8AX954gJx&_nc_ht=scontent-lim1-1.xx&oh=03_AdSSljAqpWhNtbPAJhERy6sEI12opWV-ldmPDCLOCmIdwg&oe=64CB156D',
                         ).image,
                       ),
                       boxShadow: [
@@ -279,175 +258,29 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       ],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Container(
-                      width: 100,
-                      height: 181,
-                      decoration: BoxDecoration(
-                        color: Color(0x430F1113),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(12, 12, 12, 0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 70, 30),
-                              child: Text(
-                                'Comparte tu ruta, conecta con compañeros',
-                                style: FlutterFlowTheme.of(context)
-                                    .headlineMedium
-                                    .override(
-                                      fontFamily: 'Outfit',
-                                      color: Colors.white,
-                                    ),
-                              ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(12, 10, 12, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(50, 0, 0, 10),
+                            child: Text(
+                              'Welcome Actigest !!',
+                              textAlign: TextAlign.center,
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    fontFamily: 'Alex Brush',
+                                    color: Color(0xEAFFFFFF),
+                                    fontSize: 30,
+                                  ),
                             ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 4, 0),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      // onTap: () async {
-                                      //   await Navigator.push(
-                                      //     context,
-                                      //     PageTransition(
-                                      //       type: PageTransitionType.fade,
-                                      //       child: FlutterFlowExpandedImageView(
-                                      //         image: Image.network(
-                                      //           'https://3.bp.blogspot.com/-c2eOoE74MbM/Vga_4FKyEFI/AAAAAAAACNU/lWYgwOPRhZo/s1600/logo%2B3.jpg',
-                                      //           fit: BoxFit.contain,
-                                      //         ),
-                                      //         allowRotation: false,
-                                      //         tag: 'imageTag1',
-                                      //         useHeroAnimation: true,
-                                      //       ),
-                                      //     ),
-                                      //   );
-                                      // },
-                                      child: Hero(
-                                        tag: 'imageTag1',
-                                        transitionOnUserGestures: true,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          child: Image.network(
-                                            'https://3.bp.blogspot.com/-c2eOoE74MbM/Vga_4FKyEFI/AAAAAAAACNU/lWYgwOPRhZo/s1600/logo%2B3.jpg',
-                                            width: 44,
-                                            height: 44,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 4, 0),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      // onTap: () async {
-                                      //   await Navigator.push(
-                                      //     context,
-                                      //     PageTransition(
-                                      //       type: PageTransitionType.fade,
-                                      //       child: FlutterFlowExpandedImageView(
-                                      //         image: Image.network(
-                                      //           'https://www.universidadesonline.com.bo/logos/original/logo-universidad-privada-franz-tamayo.webp',
-                                      //           fit: BoxFit.contain,
-                                      //         ),
-                                      //         allowRotation: false,
-                                      //         tag: 'imageTag2',
-                                      //         useHeroAnimation: true,
-                                      //       ),
-                                      //     ),
-                                      //   );
-                                      // },
-                                      child: Hero(
-                                        tag: 'imageTag2',
-                                        transitionOnUserGestures: true,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          child: Image.network(
-                                            'https://www.universidadesonline.com.bo/logos/original/logo-universidad-privada-franz-tamayo.webp',
-                                            width: 44,
-                                            height: 44,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 4, 0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(30),
-                                      child: Image.network(
-                                        'https://www.grupolarabida.org/wp-content/uploads/2020/10/Bolivia_UniversidadTecnologicaPrivadadeSantaCruz_UTEPSA_79_.jpg',
-                                        width: 44,
-                                        height: 44,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                              child: FFButtonWidget(
-                                onPressed: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           PublicRutaWidget()),
-                                  // );
-                                },
-                                text: 'Comparte Ahora!',
-                                options: FFButtonOptions(
-                                  width: double.infinity,
-                                  height: 44,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 0),
-                                  color: Color(0xFF39E6EF),
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Readex Pro',
-                                        color: Colors.black,
-                                      ),
-                                  elevation: 2,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ).animateOnPageLoad(
@@ -456,7 +289,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
                   child: Text(
-                    '¿Buscas ir a la U?',
+                    '¿Que quieres hacer?',
                     style: FlutterFlowTheme.of(context).labelLarge,
                   ).animateOnPageLoad(
                       animationsMap['textOnPageLoadAnimation1']!),
@@ -477,187 +310,132 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         children: [
-                          if (_model.apiDataList != null)
-
-                            // Aquí empieza el bucle para generar las cards dinámicamente
-                            for (var cardData in _model
-                                .apiDataList!) // Suponiendo que tienes los datos de las cards en una lista llamada apiData
-                              Padding(
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                            child: Container(
+                              width: 200,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 4,
+                                    color: Color(0x430F1113),
+                                    offset: Offset(0, 1),
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
                                 padding:
-                                    EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
-                                child: Container(
-                                  width: 200,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 4,
-                                        color: Color(0x430F1113),
-                                        offset: Offset(0, 1),
-                                      )
-                                    ],
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8, 8, 8, 8),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Hero(
-                                          tag: 'locationImage_${cardData.id}',
-                                          transitionOnUserGestures: true,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.memory(
-                                              base64Decode(
-                                                  cardData?.imageUrl ?? ''),
-                                              width: double.infinity,
-                                              height: 220,
-                                              fit: BoxFit.cover,
+                                    EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Hero(
+                                      tag: 'a',
+                                      transitionOnUserGestures: true,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.network(
+                                          'https://th.bing.com/th/id/R.7f6e00737653d32de371b39d054bd190?rik=XiFOgY9qY07tOg&riu=http%3a%2f%2fmovertis.com%2fwp-content%2fuploads%2f2020%2f08%2fLos-5-KPIs-principales-para-empresas-de-servicios-tecnicos.jpg&ehk=yk1gn0tkvUnFQBqlKixtto5ywi3V12xx1Y7D1%2fTCUd8%3d&risl=&pid=ImgRaw&r=0',
+                                          width: double.infinity,
+                                          height: 220,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 2, 0, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Mantenimiento',
+                                            style: FlutterFlowTheme.of(context)
+                                                .headlineSmall
+                                                .override(
+                                                  fontFamily: 'Outfit',
+                                                  fontSize: 20,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 2, 0, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Icon(
+                                            Icons.star_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            size: 24,
+                                          ),
+                                          Text(
+                                            '4,9 Stars',
+                                            // Reemplaza cardData.rating con la calificación correspondiente
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                CmantenimientoWidget(),
+                                          ),
+                                        );
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    4, 0, 0, 0),
+                                            child: Text(
+                                              'Crear un Mantenimiento',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium,
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 2, 0, 0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                cardData.title ?? '',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .headlineSmall
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          fontSize: 20,
-                                                        ),
-                                              )
-                                            ],
+                                          Icon(
+                                            Icons.navigate_next,
+                                            color: Colors.black,
+                                            size: 24,
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 2, 0, 0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Ida:',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                              Text(
-                                                _model.getFormattedTime(
-                                                        cardData.horariosal) ??
-                                                    '',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                              Text(
-                                                'Vuelta :',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                              Text(
-                                                _model.getFormattedTime(
-                                                        cardData.horariolleg) ??
-                                                    '',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Icon(
-                                                Icons.star_rounded,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 24,
-                                              ),
-                                              Text(
-                                                cardData.stars ?? '',
-                                                // Reemplaza cardData.rating con la calificación correspondiente
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            // final rutaModel =
-                                            //     Provider.of<RutaModel>(context,
-                                            //         listen: false);
-                                            // rutaModel
-                                            //         .id = // asigna el id de la ruta seleccionada
-                                            //     cardData.id;
-                                            // rutaModel.fetchApiData();
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) =>
-                                            //         RutaWidget(),
-                                            //   ),
-                                            // );
-                                          },
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(4, 0, 0, 0),
-                                                child: Text(
-                                                  'Mirar ahora',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .labelMedium,
-                                                ),
-                                              ),
-                                              Icon(
-                                                Icons.navigate_next,
-                                                color: Colors.black,
-                                                size: 24,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                          // Aquí termina el bucle
-                          if (_model.apiDataList == null)
-                            Text(
-                              'Al parecer no hay ninguna ruta previa',
-                              style: FlutterFlowTheme.of(context).bodyMedium,
                             ),
+                          ),
                         ],
                       ),
                     ),
