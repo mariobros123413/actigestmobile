@@ -63,7 +63,10 @@ class _MantenimientoWidgetState extends State<MantenimientoWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () {
+        FocusScope.of(context).unfocus(); // Liberar el enfoque
+        _model.unfocusNode.unfocus();
+      },
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -81,6 +84,8 @@ class _MantenimientoWidgetState extends State<MantenimientoWidget> {
               size: 30,
             ),
             onPressed: () {
+              FocusScope.of(context)
+                  .unfocus(); // Liberar el enfoque antes de retroceder
               Navigator.of(context).pop(); // Navegar hacia atrás
             },
           ),

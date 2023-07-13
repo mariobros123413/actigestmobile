@@ -1,7 +1,10 @@
 import 'dart:convert';
 
-import 'package:actigest/mantenimiento/cmantenimiento_widget.dart';
+import '../activo/activo_widget.dart';
+import '../mantenimiento/cmantenimiento_widget.dart';
+import '../activo/cactivo_widget.dart';
 
+import '../mantenimiento/mantenimiento_widget.dart';
 import '../menu_profile/mprofile_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 // import '/flutter_flow/flutter_flow_expanded_image_view.dart';
@@ -436,6 +439,132 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                            child: Container(
+                              width: 200,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 4,
+                                    color: Color(0x430F1113),
+                                    offset: Offset(0, 1),
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Hero(
+                                      tag: 'b',
+                                      transitionOnUserGestures: true,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.network(
+                                          'https://th.bing.com/th/id/OIP.2ASqJBq2JiiE-NPBcX-rTgHaFj?pid=ImgDet&rs=1',
+                                          width: double.infinity,
+                                          height: 220,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 2, 0, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Activo Fijo',
+                                            style: FlutterFlowTheme.of(context)
+                                                .headlineSmall
+                                                .override(
+                                                  fontFamily: 'Outfit',
+                                                  fontSize: 20,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 2, 0, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Icon(
+                                            Icons.star_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            size: 24,
+                                          ),
+                                          Text(
+                                            '4,9 Stars',
+                                            // Reemplaza cardData.rating con la calificación correspondiente
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                CactivoWidget(),
+                                          ),
+                                        );
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    4, 0, 0, 0),
+                                            child: Text(
+                                              'Crear un Activo Fijo',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.navigate_next,
+                                            color: Colors.black,
+                                            size: 24,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -444,7 +573,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 12),
                   child: Text(
-                    'Algunas Universidades de Santa Cruz',
+                    'Listas rápidas',
                     style: FlutterFlowTheme.of(context).labelLarge,
                   ).animateOnPageLoad(
                       animationsMap['textOnPageLoadAnimation2']!),
@@ -454,192 +583,72 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 7,
-                                color: Color(0x2F1D2429),
-                                offset: Offset(0, 3),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    'https://4.bp.blogspot.com/-JuVaPpYZGwI/UdgxY76qorI/AAAAAAAAHt8/pWJC732fuPI/s1600/Ciudad+Universitaria+9.jpg',
-                                    width: double.infinity,
-                                    height: 160,
-                                    fit: BoxFit.cover,
-                                  ),
+                        padding: EdgeInsetsDirectional.fromSTEB(70, 0, 70, 10),
+                        child: FFButtonWidget(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ActivoWidget(),
+                              ),
+                            );
+                          },
+                          text: 'Lista de Activos Fijos',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 40,
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            iconPadding:
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            color: Color(0xFF919191),
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                  fontSize: 14,
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 8, 0, 8),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'Universidad Autónoma Gabriel René Moreno',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyLarge,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'La Universidad Autónoma Gabriel René Moreno (UAGRM) es una destacada institución educativa en Santa Cruz de la Sierra, Bolivia. Fundada en 1879, ofrece una amplia gama de carreras universitarias en diversas disciplinas. La UAGRM se destaca por su trayectoria histórica, su excelencia académica y su contribución al desarrollo educativo y social de la región.',
-                                        style: FlutterFlowTheme.of(context)
-                                            .labelMedium,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            elevation: 2,
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 1,
                             ),
+                            borderRadius: BorderRadius.circular(50),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 7,
-                                color: Color(0x2F1D2429),
-                                offset: Offset(0, 3),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    'https://unifranz.edu.bo/wp-content/uploads/2022/03/Captura-frontis-UNIFRANZ-scz-1024x575.png',
-                                    width: double.infinity,
-                                    height: 160,
-                                    fit: BoxFit.cover,
-                                  ),
+                        padding: EdgeInsetsDirectional.fromSTEB(70, 0, 70, 30),
+                        child: FFButtonWidget(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MantenimientoWidget(),
+                              ),
+                            );
+                          },
+                          text: 'Lista de Mantenimientos',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 40,
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            iconPadding:
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            color: Color(0xFF919191),
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                  fontSize: 14,
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 8, 0, 8),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        'Unifranz',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyLarge,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'La Universidad Internacional Franz Tamayo (UNIFRANZ) es una prestigiosa institución educativa privada en Bolivia, fundada en 1993. Ofrece una amplia gama de programas académicos, destacándose por su excelencia, enfoque innovador y compromiso con la comunidad.',
-                                        style: FlutterFlowTheme.of(context)
-                                            .labelMedium,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            elevation: 2,
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 1,
                             ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 7,
-                                color: Color(0x2F1D2429),
-                                offset: Offset(0, 3),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    'https://scontent.fvvi1-1.fna.fbcdn.net/v/t1.6435-9/78821579_2839533406079717_2491976678390104064_n.png?_nc_cat=108&ccb=1-7&_nc_sid=730e14&_nc_ohc=8KzYeBL2foYAX_wYOU_&_nc_ht=scontent.fvvi1-1.fna&oh=00_AfCIBr1D7Dxag_3jB6lY-LbQS8OABAhcgxBEGFnTj3ZbPw&oe=64B2C236',
-                                    width: double.infinity,
-                                    height: 160,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 8, 0, 8),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'Universidad Tecnológica Privada de Santa Cruz de la Sierra (UTEPSA)',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyLarge,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'UTEPSA es una universidad tecnológica privada en Bolivia, enfocada en la formación técnica y tecnológica. Ofrece programas académicos en ingeniería, ciencias de la salud, administración y ciencias sociales. Destaca por su compromiso con la innovación y la preparación integral de los estudiantes para el mercado laboral.',
-                                        style: FlutterFlowTheme.of(context)
-                                            .labelMedium,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            borderRadius: BorderRadius.circular(50),
                           ),
                         ),
                       ),

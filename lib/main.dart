@@ -13,10 +13,16 @@ import 'menu_profile/mprofile_widget.dart';
 import 'user_session.dart';
 import 'vehicle/vehicle_model.dart';
 import 'home/home_widget.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
+// Inicializar OneSignal
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  OneSignal.shared.setAppId("97009778-a5ce-4994-bf86-bd499137d95f");
+  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+    print("Permiso aceptación: $accepted");
+  });
   runApp(
     MultiProvider(
       providers: [
@@ -47,12 +53,37 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Inicializar OneSignal
+    // OneSignal.shared.setNotificationOpenedHandler(
+    //   (OSNotificationOpenedResult result) {
+    //     // Procesar la notificación abierta
+    //     final OSNotificationAction? action = result.action;
+    //     final OSNotificationPayload payload = result.notification.payload;
+    //     final String? description = payload.additionalData?['description'];
+
+    //     // Mostrar una alerta o realizar otras acciones según la notificación abierta
+    //     showDialog(
+    //         // ...
+    //         );
+    //   },
+    // );
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
           // Configura el tema
@@ -102,9 +133,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-// class UserSession with ChangeNotifier {
-//   int? nroregistro;
-
-//   UserSession({this.nroregistro});
-// }

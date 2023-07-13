@@ -63,7 +63,10 @@ class _ActivoWidgetState extends State<ActivoWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () {
+        FocusScope.of(context).unfocus(); // Liberar el enfoque
+        _model.unfocusNode.unfocus();
+      },
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -81,6 +84,8 @@ class _ActivoWidgetState extends State<ActivoWidget> {
               size: 30,
             ),
             onPressed: () {
+              FocusScope.of(context)
+                  .unfocus(); // Liberar el enfoque antes de retroceder
               Navigator.of(context).pop(); // Navegar hacia atrás
             },
           ),
@@ -265,8 +270,6 @@ class _ActivoWidgetState extends State<ActivoWidget> {
               ),
               Text('ID: ${card.id.toString() ?? ''}'),
               Text('Dia: ${card.dia.toString().substring(0, 10)}'),
-              Text('Marca: ${card.marca ?? ''}'),
-              Text('Modelo: ${card.modelo ?? ''}'),
               Text('Costo: \$${card.costo.toString()}'),
               Text('Lugar de Compra: ${card.lugar}'),
               Text('Marca: ${card.marca}'),

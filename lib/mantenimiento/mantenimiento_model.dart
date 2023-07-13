@@ -87,7 +87,7 @@ class MantenimientoModel extends ChangeNotifier {
         'idaf': idafController.text,
         'titulo': tituloController.text,
         'descripcion': descripcionController.text,
-        'fechainicio': fechainicioController.text,
+        'fechaInicio': fechainicioController.text,
         'responsable': responsableController.text,
         'costo': costoController.text,
         'idestado': idestadoController.text
