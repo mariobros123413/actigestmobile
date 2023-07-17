@@ -27,6 +27,8 @@ class EditarActivoModel {
   String? modelo;
   int? serial;
   String? foto;
+  File? fotoFile;
+
   // Agrega aquí los demás campos que desees editar
 
   EditarActivoModel(

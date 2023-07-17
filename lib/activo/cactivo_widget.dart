@@ -82,13 +82,22 @@ class _CactivoWidgetState extends State<CactivoWidget> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(0),
-                      child: Image.network(
-                        'https://uploadgerencie.com/imagenes/concepto-o-definicion-de-activo-fijo.png',
-                        width: MediaQuery.of(context).size.width,
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                      child: _model.uploadedLocalFile != null &&
+                              _model.uploadedLocalFile.bytes != null &&
+                              _model.uploadedLocalFile.bytes!.isNotEmpty
+                          ? Image.memory(
+                              _model.uploadedLocalFile.bytes!,
+                              width: MediaQuery.of(context).size.width,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              'https://uploadgerencie.com/imagenes/concepto-o-definicion-de-activo-fijo.png',
+                              width: MediaQuery.of(context).size.width,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
+                    )
                   ],
                 ),
                 Padding(

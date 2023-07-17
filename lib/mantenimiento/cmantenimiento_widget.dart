@@ -60,7 +60,7 @@ class _CmantenimientoWidgetState extends State<CmantenimientoWidget> {
             ),
           ),
           title: Text(
-            'Crea un Nuevo Activo Fijo',
+            'Crea un mantenimiento',
             style: FlutterFlowTheme.of(context).titleSmall.override(
                   fontFamily: 'Readex Pro',
                   color: Colors.black,
@@ -83,7 +83,7 @@ class _CmantenimientoWidgetState extends State<CmantenimientoWidget> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(0),
                       child: Image.network(
-                        'https://uploadgerencie.com/imagenes/concepto-o-definicion-de-activo-fijo.png',
+                        'https://th.bing.com/th/id/R.7f6e00737653d32de371b39d054bd190?rik=XiFOgY9qY07tOg&riu=http%3a%2f%2fmovertis.com%2fwp-content%2fuploads%2f2020%2f08%2fLos-5-KPIs-principales-para-empresas-de-servicios-tecnicos.jpg&ehk=yk1gn0tkvUnFQBqlKixtto5ywi3V12xx1Y7D1%2fTCUd8%3d&risl=&pid=ImgRaw&r=0',
                         width: MediaQuery.of(context).size.width,
                         height: 200,
                         fit: BoxFit.cover,
@@ -92,86 +92,7 @@ class _CmantenimientoWidgetState extends State<CmantenimientoWidget> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 16),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FFButtonWidget(
-                        onPressed: () async {
-                          final selectedMedia =
-                              await selectMediaWithSourceBottomSheet(
-                            context: context,
-                            imageQuality: 100,
-                            allowPhoto: true,
-                          );
-                          if (selectedMedia != null &&
-                              selectedMedia.every((m) =>
-                                  validateFileFormat(m.storagePath, context))) {
-                            setState(() => _model.isDataUploading = true);
-                            var selectedUploadedFiles = <FFUploadedFile>[];
-
-                            try {
-                              showUploadMessage(
-                                context,
-                                'Uploading file...',
-                                showLoading: true,
-                              );
-                              selectedUploadedFiles = selectedMedia
-                                  .map((m) => FFUploadedFile(
-                                        name: m.storagePath.split('/').last,
-                                        bytes: m.bytes,
-                                        height: m.dimensions?.height,
-                                        width: m.dimensions?.width,
-                                        blurHash: m.blurHash,
-                                      ))
-                                  .toList();
-                            } finally {
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              _model.isDataUploading = false;
-                            }
-                            if (selectedUploadedFiles.length ==
-                                selectedMedia.length) {
-                              setState(() {
-                                _model.uploadedLocalFile =
-                                    selectedUploadedFiles.first;
-                              });
-                              showUploadMessage(context, 'Success!');
-                            } else {
-                              setState(() {});
-                              showUploadMessage(
-                                  context, 'Failed to upload data');
-                              return;
-                            }
-                          }
-                        },
-                        text: 'Cambiar Foto',
-                        options: FFButtonOptions(
-                          width: 130,
-                          height: 40,
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          iconPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          color: Colors.white,
-                          textStyle:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF39D2C0),
-                                  ),
-                          elevation: 2,
-                          borderSide: BorderSide(
-                            color: Color(0xFFDBE2E7),
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 12),
                   child: TextFormField(
                       controller: _model.idafController,
                       obscureText: false,

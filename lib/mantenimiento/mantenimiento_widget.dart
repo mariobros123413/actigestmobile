@@ -156,7 +156,8 @@ class _MantenimientoWidgetState extends State<MantenimientoWidget> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(6),
                                         child: Image.network(
-                                          'https://uploadgerencie.com/imagenes/concepto-o-definicion-de-activo-fijo.png',
+                                          cardData.foto ??
+                                              '', // URL de la imagen del activo
                                           width: 80,
                                           height: 80,
                                           fit: BoxFit.cover,
@@ -261,7 +262,7 @@ class _MantenimientoWidgetState extends State<MantenimientoWidget> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
                   child: Image.network(
-                    'https://uploadgerencie.com/imagenes/concepto-o-definicion-de-activo-fijo.png',
+                    card.foto ?? '',
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,

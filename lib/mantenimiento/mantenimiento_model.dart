@@ -28,6 +28,8 @@ class MantenimientoModel extends ChangeNotifier {
   String? responsable;
   int? costo;
   int? idestado;
+  String? foto;
+
   List<MantenimientoModel>? apiDataList;
   @override
   MantenimientoModel(
@@ -38,7 +40,8 @@ class MantenimientoModel extends ChangeNotifier {
       this.fechainicio,
       this.responsable,
       this.costo,
-      this.idestado});
+      this.idestado,
+      this.foto});
 
   Future<void> fetchListaMant() async {
     try {
@@ -52,18 +55,21 @@ class MantenimientoModel extends ChangeNotifier {
         // Mapear los datos de la respuesta a instancias de HomeModel
         final apiData = data
             .map((item) => MantenimientoModel(
-                id: item['id'],
-                idaf: item['idaf'],
-                titulo: item['titulo'],
-                descripcion: item['descripcion'],
-                fechainicio: item['fechainicio'] != null
-                    ? DateTime.parse(item['fechainicio'])
-                    : null,
-                responsable: item['responsable'],
-                costo: item['costo'],
-                idestado: item['idestado']))
+                  id: item['id'],
+                  idaf: item['idaf'],
+                  titulo: item['titulo'],
+                  descripcion: item['descripcion'],
+                  fechainicio: item['fechainicio'] != null
+                      ? DateTime.parse(item['fechainicio'])
+                      : null,
+                  responsable: item['responsable'],
+                  costo: item['costo'],
+                  idestado: item['idestado'],
+                  foto:
+                      'https://apisi2.up.railway.app/api/actiI/${item['idaf']}',
+                ))
             .toList();
-        print(apiData);
+        print(data);
         // Hacer algo con los datos obtenidos, por ejemplo, almacenarlos en una lista en la clase HomeModel
         // Por ejemplo, asumiendo que tienes una lista llamada 'apiDataList' en HomeModel
         apiDataList = apiData;

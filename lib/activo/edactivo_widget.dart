@@ -20,6 +20,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'edactivo_model.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class EditarActivoFijoScreen extends StatefulWidget {
   final ActivoModel activo;
@@ -33,7 +37,7 @@ class EditarActivoFijoScreen extends StatefulWidget {
 class _EditarActivoFijoScreenState extends State<EditarActivoFijoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _editarActivoModel = EditarActivoModel();
-
+  FFUploadedFile? _uploadedLocalFile;
   @override
   void initState() {
     super.initState();
@@ -50,129 +54,194 @@ class _EditarActivoFijoScreenState extends State<EditarActivoFijoScreen> {
     _editarActivoModel.foto = widget.activo.foto;
   }
 
+  Future<void> _selectAndUploadImage() async {
+    final selectedMedia = await selectMediaWithSourceBottomSheet(
+      context: context,
+      imageQuality: 100,
+      allowPhoto: true,
+    );
+
+    if (selectedMedia != null &&
+        selectedMedia
+            .every((m) => validateFileFormat(m.storagePath, context))) {
+      setState(() {
+        _uploadedLocalFile = FFUploadedFile(
+          bytes: selectedMedia.first.bytes,
+          name: selectedMedia.first.storagePath.split('/').last,
+          height: selectedMedia.first.dimensions?.height,
+          width: selectedMedia.first.dimensions?.width,
+          blurHash: selectedMedia.first.blurHash,
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Editar Activo Fijo'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
+      body: SafeArea(
+        top: true,
+        child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              TextFormField(
-                initialValue: _editarActivoModel.descripcion,
-                decoration: InputDecoration(
-                  labelText: 'Descripción',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa una descripción';
-                  }
-                  return null;
+              // Mostrar imagen actual del activo
+              _uploadedLocalFile != null
+                  ? Image.memory(
+                      _uploadedLocalFile!.bytes!,
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      _editarActivoModel.foto ?? '',
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+
+              // Botón para cambiar la imagen
+              ElevatedButton(
+                onPressed: () async {
+                  _selectAndUploadImage();
                 },
-                onSaved: (value) {
-                  _editarActivoModel.descripcion = value;
-                },
+                child: Text('Cambiar Foto'),
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.dia != null
-                    ? _editarActivoModel.dia!.toString().substring(0, 10)
-                    : '',
-                decoration: InputDecoration(
-                  labelText: 'Dia de Compra',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.descripcion,
+                  decoration: InputDecoration(
+                    labelText: 'Descripción',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa una descripción';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.descripcion = value;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa una fecha yyyy-mm-dd';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    _editarActivoModel.dia = DateTime.parse(value);
-                  } else {
-                    _editarActivoModel.dia = null;
-                  }
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.costo.toString(),
-                decoration: InputDecoration(
-                  labelText: 'Costo',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.dia != null
+                      ? _editarActivoModel.dia!.toString().substring(0, 10)
+                      : '',
+                  decoration: InputDecoration(
+                    labelText: 'Dia de Compra',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa una fecha yyyy-mm-dd';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    if (value != null && value.isNotEmpty) {
+                      _editarActivoModel.dia = DateTime.parse(value);
+                    } else {
+                      _editarActivoModel.dia = null;
+                    }
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un costo entero';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.costo = int.parse(value!);
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.lugar,
-                decoration: InputDecoration(
-                  labelText: 'Lugar de Compra',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.costo.toString(),
+                  decoration: InputDecoration(
+                    labelText: 'Costo',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un costo entero';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.costo = int.parse(value!);
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un lugar de compra';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.lugar = value;
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.marca,
-                decoration: InputDecoration(
-                  labelText: 'Marca',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.lugar,
+                  decoration: InputDecoration(
+                    labelText: 'Lugar de Compra',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un lugar de compra';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.lugar = value;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa una marca';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.marca = value;
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.modelo,
-                decoration: InputDecoration(
-                  labelText: 'Modelo',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.marca,
+                  decoration: InputDecoration(
+                    labelText: 'Marca',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa una marca';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.marca = value;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un modelo';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.modelo = value;
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.serial.toString(),
-                decoration: InputDecoration(
-                  labelText: 'Serial',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.modelo,
+                  decoration: InputDecoration(
+                    labelText: 'Modelo',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un modelo';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.modelo = value;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un Serial entero';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  final serial = int.tryParse(value ?? '');
-                  _editarActivoModel.serial = serial;
-                },
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.serial.toString(),
+                  decoration: InputDecoration(
+                    labelText: 'Serial',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un Serial entero';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    final serial = int.tryParse(value ?? '');
+                    _editarActivoModel.serial = serial;
+                  },
+                ),
               ),
               // Agrega aquí los demás TextFormField para los campos que deseas editar
 
@@ -183,7 +252,8 @@ class _EditarActivoFijoScreenState extends State<EditarActivoFijoScreen> {
                   ElevatedButton(
                     onPressed: () {
                       // Acción para guardar los cambios
-                      if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState != null &&
+                          _formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         _guardarCambios();
                         // Aquí puedes realizar la lógica para guardar los cambios
@@ -230,10 +300,11 @@ class _EditarActivoFijoScreenState extends State<EditarActivoFijoScreen> {
       String? marca = _editarActivoModel.marca;
       String? modelo = _editarActivoModel.modelo;
       int? serial = _editarActivoModel.serial;
+      FFUploadedFile? fotofile = _uploadedLocalFile;
 
       // Llamar a updateActivoData con los valores obtenidos
       updateActivoData(
-          id, descripcion, dia, costo, lugar, marca, modelo, serial);
+          id, descripcion, dia, costo, lugar, marca, modelo, serial, fotofile);
     }
   }
 
@@ -246,33 +317,44 @@ class _EditarActivoFijoScreenState extends State<EditarActivoFijoScreen> {
     String? marca,
     String? modelo,
     int? serial,
+    FFUploadedFile? fotofile,
   ) async {
     final url = 'https://apisi2.up.railway.app/api/acti/$id';
-    print(id);
+    print('URL de la solicitud: $url');
     try {
-      final body = {
-        'descripcion': descripcion,
-        'diaCompra': dia != null ? DateFormat('yyyy-MM-dd').format(dia!) : '',
-        'costo': costo?.toString() ?? '', // Convertir a String
-        'lugarCompra': lugar,
-        'marca': marca,
-        'modelo': modelo,
-        'serial': serial?.toString() ?? '', // Convertir a String
-        'foto': 'a'
-      };
-      print('Body de la solicitud: $body');
+      final formData = FormData();
+      formData.fields.addAll([
+        MapEntry('descripcion', descripcion ?? ''),
+        MapEntry('diaCompra',
+            dia != null ? DateFormat('yyyy-MM-dd').format(dia) : ''),
+        MapEntry('costo', costo?.toString() ?? ''),
+        MapEntry('lugarCompra', lugar ?? ''),
+        MapEntry('marca', marca ?? ''),
+        MapEntry('modelo', modelo ?? ''),
+        MapEntry('serial', serial?.toString() ?? ''),
+      ]);
 
-      final response = await http.put(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: body,
+      if (fotofile != null) {
+        formData.files.add(MapEntry(
+          'foto',
+          MultipartFile.fromBytes(
+            fotofile.bytes!.toList(), // Convertir a List<int>
+            filename:
+                'nombre_del_archivo.jpg', // Reemplaza 'nombre_del_archivo' por el nombre real del archivo
+          ),
+        ));
+      }
+
+      final response = await Dio().put(
+        url,
+        data: formData,
+        options: Options(contentType: 'multipart/form-data'),
       );
-
       if (response.statusCode == 200) {
         print('Datos del activo actualizados');
-        // notifyListeners();
       } else {
-        print('Error en la solicitud: ${response.statusCode} updateActivoData');
+        print('Error en la solicitud: ${response.statusCode}');
+        print('Mensaje de error: ${response.data}');
       }
     } catch (e) {
       print('Excepción durante la solicitud updateActivoData: $e');

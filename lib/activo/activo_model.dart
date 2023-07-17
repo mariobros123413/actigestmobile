@@ -7,6 +7,7 @@ import '../user_session.dart';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
+import 'package:dio/dio.dart';
 
 import '../flutter_flow/flutter_flow_model.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -30,6 +31,8 @@ class ActivoModel extends ChangeNotifier {
   int? serial;
   String? foto;
   List<ActivoModel>? apiDataList;
+  File? fotoFile;
+
   @override
   ActivoModel(
       {this.id,
@@ -64,7 +67,8 @@ class ActivoModel extends ChangeNotifier {
                   marca: item['marca'],
                   modelo: item['modelo'],
                   serial: item['serial'],
-                  foto: item['foto'],
+                  foto:
+                      'https://apisi2.up.railway.app/api/actiI/${item['id']}', // URL de la imagen
                 ))
             .toList();
         print(apiData);
@@ -84,15 +88,15 @@ class ActivoModel extends ChangeNotifier {
 // ...
 
   Future<void> updateActivoData(
-    int? id,
-    String? descripcion,
-    DateTime? dia,
-    int? costo,
-    String? lugar,
-    String? marca,
-    String? modelo,
-    int? serial,
-  ) async {
+      int? id,
+      String? descripcion,
+      DateTime? dia,
+      int? costo,
+      String? lugar,
+      String? marca,
+      String? modelo,
+      int? serial,
+      File? fotoFile) async {
     final url = 'https://apisi2.up.railway.app/api/acti/$id';
     print(id);
     try {
@@ -133,28 +137,28 @@ class ActivoModel extends ChangeNotifier {
     final url = 'https://apisi2.up.railway.app/api/acti';
 
     try {
-      final body = <String, dynamic>{
+      final formData = FormData.fromMap({
         'id': idController.text,
         'descripcion': descripcionController.text,
         'diaCompra': diaController.text,
         'costo': costoController.text,
-        'lugarCompra': lugarController.text, // Actualizar la foto más adelante
+        'lugarCompra': lugarController.text,
         'marca': marcaController.text,
         'modelo': modeloController.text,
         'serial': serialController.text,
-        'foto': 'a'
-      };
-      print('Body de la solicitud: $body');
+        // Añadir la imagen seleccionada al FormData
+        'img': MultipartFile.fromBytes(
+          uploadedLocalFile.bytes!,
+          filename:
+              'imagen_activofijo.jpg', // Cambiar el nombre del archivo según tu necesidad
+        ),
+      });
+      print('Body de la solicitud: $formData');
 
-      // if (uploadedLocalFile != null && uploadedLocalFile.bytes != null) {
-      //   final encodedImage = await base64.encode(uploadedLocalFile.bytes!);
-      //   body['foto'] = encodedImage;
-      // }
-
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: body,
+      final response = await Dio().post(
+        url,
+        data: formData,
+        options: Options(headers: {'Content-Type': 'multipart/form-data'}),
       );
 
       if (response.statusCode == 200) {
