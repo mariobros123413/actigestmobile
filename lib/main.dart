@@ -23,6 +23,7 @@ void main() {
   OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
     print("Permiso aceptación: $accepted");
   });
+
   runApp(
     MultiProvider(
       providers: [

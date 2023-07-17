@@ -62,7 +62,10 @@ dependencies:
   google_map_polyline_new: ^0.3.0+2
   flutter_dialogs: ^3.0.0
   onesignal_flutter: ^3.5.1
-
+  pdf: ^3.10.4
+  syncfusion_flutter_pdf: ^22.1.38
+  path_provider: ^2.0.1
+  excel: ^2.1.0
 
 
 

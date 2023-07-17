@@ -1,3 +1,6 @@
+import 'package:flutter/services.dart';
+import 'dart:typed_data';
+
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -9,9 +12,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import '../vehicle/vehicle_model.dart';
 import 'activo_model.dart';
 export '../vehicle/vehicle_model.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/widgets.dart' as pwFonts;
+import 'package:flutter/services.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:google_fonts/google_fonts.dart' as googleFonts;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 import 'dart:async';
 import 'dart:convert';
@@ -20,6 +31,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'edactivo_widget.dart';
+import 'package:excel/excel.dart';
 
 class ActivoWidget extends StatefulWidget {
   const ActivoWidget({Key? key}) : super(key: key);
@@ -58,6 +70,140 @@ class _ActivoWidgetState extends State<ActivoWidget> {
     setState(() {
       // Actualizar las solicitudes en el modelo o cargar las nuevas solicitudes aquí
     });
+  }
+
+  Future<void> _generarPDF() async {
+    final pdf = pw.Document();
+    final activos = _model.apiDataList;
+
+    //Set the font
+    TextStyle textStyle =
+        GoogleFonts.lato(fontSize: 12); // Reemplaza con la fuente que desees
+    PdfFont font = await getFont(GoogleFonts.roboto(fontSize: 12));
+
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Column(
+            children: [
+              pw.Text(
+                'Lista de Activos Fijos',
+                style: pw.TextStyle(fontSize: 24, font: pw.Font.courier()),
+              ),
+              pw.SizedBox(height: 16),
+              pw.Table.fromTextArray(
+                headers: [
+                  'ID',
+                  'Descripción',
+                  'Día Compra',
+                  'Costo',
+                  'Lugar Compra',
+                  'Marca',
+                  'Modelo',
+                  'Serial'
+                ],
+                data: activos!
+                    .map((activo) => [
+                          activo.id.toString(),
+                          activo.descripcion,
+                          activo.dia.toString().substring(0, 10),
+                          activo.costo.toString(),
+                          activo.lugar,
+                          activo.marca,
+                          activo.modelo,
+                          activo.serial,
+                        ])
+                    .toList(),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    List<int> bytes = await pdf.save();
+    // Dispose the document
+    final String fileName = 'Lista_Activos.pdf';
+    final String directory = (await getExternalStorageDirectory())!.path;
+    final File file = File('$directory/$fileName');
+    await file.writeAsBytes(bytes);
+    print(file.toString());
+  }
+
+  Future<Uint8List?> _getPhotoBytes(String? photoUrl) async {
+    if (photoUrl == null || photoUrl.isEmpty) return null;
+    File file = await DefaultCacheManager().getSingleFile(photoUrl);
+    if (file.existsSync()) {
+      return file.readAsBytes();
+    }
+    return null;
+  }
+
+  Future<PdfFont> getFont(TextStyle style) async {
+    //Get the external storage directory
+    Directory directory = await getApplicationSupportDirectory();
+    //Create an empty file to write the font data
+    File file = File('${directory.path}/${style.fontFamily}.ttf');
+    List<int>? fontBytes;
+    //Check if entity with the path exists
+    if (file.existsSync()) {
+      fontBytes = await file.readAsBytes();
+    }
+    if (fontBytes != null && fontBytes.isNotEmpty) {
+      //Return the google font
+      return PdfTrueTypeFont(fontBytes, 12);
+    } else {
+      //Return the default font
+      return PdfStandardFont(PdfFontFamily.helvetica, 12);
+    }
+  }
+
+  Future<void> _generarExcel() async {
+    final activos = _model.apiDataList;
+
+    // Crear una instancia de Excel
+    final excel = Excel.createExcel();
+
+    // Crear una hoja de cálculo dentro del archivo Excel
+    final sheet = excel['Lista Activos Fijos'];
+
+    // Agregar los encabezados a la hoja de cálculo
+    sheet.appendRow([
+      'ID',
+      'Descripción',
+      'Día Compra',
+      'Costo',
+      'Lugar Compra',
+      'Marca',
+      'Modelo',
+      'Serial'
+    ]);
+
+    // Agregar los datos de los activos a la hoja de cálculo
+    activos!.forEach((activo) {
+      sheet.appendRow([
+        activo.id,
+        activo.descripcion,
+        activo.dia.toString().substring(0, 10),
+        activo.costo,
+        activo.lugar,
+        activo.marca,
+        activo.modelo,
+        activo.serial
+      ]);
+    });
+
+    // Obtener el directorio de almacenamiento externo
+    final directory = await getExternalStorageDirectory();
+
+    // Crear el archivo Excel
+    final excelFile = File('${directory!.path}/lista_activos.xlsx');
+
+    // Guardar el contenido del archivo Excel en el archivo
+    final excelBytes = await excel.encode();
+    await excelFile.writeAsBytes(excelBytes!);
+
+    print(excelFile.toString());
   }
 
   @override
@@ -239,6 +385,18 @@ class _ActivoWidgetState extends State<ActivoWidget> {
                           ),
                     ],
                   ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _generarPDF();
+                  },
+                  child: Text('Generar PDF'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _generarExcel();
+                  },
+                  child: Text('Generar Excel'),
                 ),
               ],
             ),
