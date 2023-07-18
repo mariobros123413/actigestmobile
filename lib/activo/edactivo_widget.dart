@@ -1,27 +1,16 @@
-import '../flutter_flow/flutter_flow_icon_button.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_data.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-
 import 'activo_model.dart';
 
 import 'dart:async';
-import 'dart:convert';
+
 // import 'package:flutter_dialogs/flutter_dialogs.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'edactivo_model.dart';
-import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:intl/intl.dart';
 
 class EditarActivoFijoScreen extends StatefulWidget {

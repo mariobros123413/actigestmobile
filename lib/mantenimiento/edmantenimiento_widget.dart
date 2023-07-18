@@ -1,20 +1,9 @@
-import '../flutter_flow/flutter_flow_icon_button.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import '../flutter_flow/upload_data.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'mantenimiento_model.dart';
 
 import 'dart:async';
-import 'dart:convert';
-// import 'package:flutter_dialogs/flutter_dialogs.dart';
-import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 
 import 'edmantenimiento_model.dart';
@@ -52,126 +41,147 @@ class _EditarMantenimientoScreenState extends State<EditarMantenimientoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar Activo Fijo'),
+        title: Text('Editar Mantenimiento del Activo Fijo'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
+      body: SafeArea(
+        top: true,
+        child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              TextFormField(
-                initialValue: _editarActivoModel.idaf.toString(),
-                decoration: InputDecoration(
-                  labelText: 'ID Activo Fijo',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.idaf.toString(),
+                  decoration: InputDecoration(
+                    labelText: 'ID Activo Fijo',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un ID de algún Activo Fijo';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.idaf = int.parse(value!);
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un ID de algún Activo Fijo';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.idaf = int.parse(value!);
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.titulo,
-                decoration: InputDecoration(
-                  labelText: 'Titulo',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.titulo,
+                  decoration: InputDecoration(
+                    labelText: 'Titulo',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un titulo';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.titulo = value;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un titulo';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.titulo = value;
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.descripcion,
-                decoration: InputDecoration(
-                  labelText: 'Descripción',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.descripcion,
+                  decoration: InputDecoration(
+                    labelText: 'Descripción',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa una descripción';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.descripcion = value;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa una descripción';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.descripcion = value;
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.fechainicio != null
-                    ? _editarActivoModel.fechainicio!
-                        .toString()
-                        .substring(0, 10)
-                    : '',
-                decoration: InputDecoration(
-                  labelText: 'Fecha Inicio',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.fechainicio != null
+                      ? _editarActivoModel.fechainicio!
+                          .toString()
+                          .substring(0, 10)
+                      : '',
+                  decoration: InputDecoration(
+                    labelText: 'Fecha Inicio',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa una fecha yyyy-mm-dd';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    if (value != null && value.isNotEmpty) {
+                      _editarActivoModel.fechainicio = DateTime.parse(value);
+                    } else {
+                      _editarActivoModel.fechainicio = null;
+                    }
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa una fecha yyyy-mm-dd';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    _editarActivoModel.fechainicio = DateTime.parse(value);
-                  } else {
-                    _editarActivoModel.fechainicio = null;
-                  }
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.responsable,
-                decoration: InputDecoration(
-                  labelText: 'Responsable a cargo',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.responsable,
+                  decoration: InputDecoration(
+                    labelText: 'Responsable a cargo',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un lugar de compra';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.responsable = value;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un lugar de compra';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.responsable = value;
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.costo.toString(),
-                decoration: InputDecoration(
-                  labelText: 'Costo',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.costo.toString(),
+                  decoration: InputDecoration(
+                    labelText: 'Costo',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un costo entero';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.costo = int.parse(value!);
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un costo entero';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.costo = int.parse(value!);
-                },
               ),
-              TextFormField(
-                initialValue: _editarActivoModel.idestado.toString(),
-                decoration: InputDecoration(
-                  labelText: 'ID Estado',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                child: TextFormField(
+                  initialValue: _editarActivoModel.idestado.toString(),
+                  decoration: InputDecoration(
+                    labelText: 'ID Estado',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingresa un id del estado (1,2,3)';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _editarActivoModel.idestado = int.parse(value!);
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa un id del estado (1,2,3)';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _editarActivoModel.idestado = int.parse(value!);
-                },
               ),
 
               // Agrega aquí los demás TextFormField para los campos que deseas editar
@@ -256,7 +266,7 @@ class _EditarMantenimientoScreenState extends State<EditarMantenimientoScreen> {
         'titulo': titulo,
 
         'descripcion': descripcion,
-        'fechaInicio': dia != null ? DateFormat('yyyy-MM-dd').format(dia!) : '',
+        'fechaInicio': dia != null ? DateFormat('yyyy-MM-dd').format(dia) : '',
         'responsable': responsable,
 
         'costo': costo?.toString() ?? '', // Convertir a String
