@@ -1,6 +1,8 @@
 import 'package:flutter/services.dart';
 import 'dart:typed_data';
+import 'package:dio/dio.dart';
 
+import 'package:qr_flutter/qr_flutter.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -13,7 +15,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'activo_model.dart';
-export '../vehicle/vehicle_model.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart' as pwFonts;
 import 'package:flutter/services.dart';
@@ -27,7 +28,6 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 // import 'package:flutter_dialogs/flutter_dialogs.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'edactivo_widget.dart';
@@ -70,6 +70,20 @@ class _ActivoWidgetState extends State<ActivoWidget> {
     setState(() {
       // Actualizar las solicitudes en el modelo o cargar las nuevas solicitudes aquí
     });
+  }
+
+  Future<String> obtenerActivoFijo(int? idActivo) async {
+    final dio = Dio();
+    try {
+      final response =
+          await dio.get('https://apisi2.up.railway.app/api/acti/$idActivo');
+      print('Response data:');
+      print(response.data[0]);
+      return response.data[0].toString();
+    } catch (e) {
+      print('Error: $e');
+      return "123445";
+    }
   }
 
   Future<void> _generarPDF() async {
@@ -473,6 +487,40 @@ class _ActivoWidgetState extends State<ActivoWidget> {
             },
             child: Text('Editar'),
           ),
+          ElevatedButton(
+            child: const Text('Mostrar QR'),
+            onPressed: () async {
+              String textToQr = await obtenerActivoFijo(card.id);
+              if (!context.mounted) return;
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return SizedBox(
+                    height: 600,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                              'Código QR para el activo fijo ${card.id} ${card.descripcion}'),
+                          QrImageView(
+                            data: textToQr,
+                            version: QrVersions.auto,
+                            size: 300.0,
+                          ),
+                          ElevatedButton(
+                            child: const Text('Cerrar'),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          )
         ],
       ),
     );

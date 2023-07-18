@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import './vehicle/vehicle_model.dart';
-
 class UserSession with ChangeNotifier {
   int? id;
   String? nroregistro;
@@ -14,7 +12,6 @@ class UserSession with ChangeNotifier {
   String? fotoperfil;
   String? carrera;
   String? preferenciasviaje;
-  late VehicleModel vehicleModel;
 
   UserSession({
     this.nroregistro,
@@ -24,9 +21,7 @@ class UserSession with ChangeNotifier {
     this.fotoperfil,
     this.carrera,
     this.preferenciasviaje,
-  }) {
-    vehicleModel = VehicleModel(idusuario: id);
-  }
+  });
 
   Future<void> fetchUserData() async {
     final url =
@@ -45,7 +40,6 @@ class UserSession with ChangeNotifier {
           fotoperfil = userData['fotoperfil'];
           carrera = userData['carrera'];
           preferenciasviaje = userData['preferenciasviaje'];
-          vehicleModel.idusuario = id;
           notifyListeners();
 
           print('User data fetched successfully. ID: $id');

@@ -4,14 +4,12 @@ import 'mantenimiento/mantenimiento_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'activo/activo_widget.dart';
-import '../peticiones/peticiones_model.dart';
 import 'activo/cactivo_widget.dart';
 
 import 'activo/activo_model.dart';
 import 'login/login_widget.dart';
 import 'menu_profile/mprofile_widget.dart';
 import 'user_session.dart';
-import 'vehicle/vehicle_model.dart';
 import 'home/home_widget.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
@@ -38,12 +36,6 @@ void main() {
         ),
         ChangeNotifierProvider<ProfileWidgetModel>(
           create: (_) => ProfileWidgetModel(),
-        ),
-        ChangeNotifierProvider<PeticionesModel>(
-          create: (_) => PeticionesModel(),
-        ),
-        ChangeNotifierProvider<VehicleModel>(
-          create: (_) => VehicleModel(),
         ),
         ChangeNotifierProvider<HomeModel>(
           create: (_) => HomeModel(),

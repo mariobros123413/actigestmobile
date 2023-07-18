@@ -9,9 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import '../vehicle/vehicle_model.dart';
+
 import 'activo_model.dart';
-export '../vehicle/vehicle_model.dart';
 
 import 'dart:async';
 import 'dart:convert';

@@ -66,6 +66,7 @@ dependencies:
   syncfusion_flutter_pdf: ^22.1.38
   path_provider: ^2.0.1
   excel: ^2.1.0
+  qr_flutter: ^4.1.0
 
 
 

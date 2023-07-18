@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import '../mantenimiento/cmantenimiento_widget.dart';
 import '../mantenimiento/mantenimiento_widget.dart';
-import '../peticiones/peticiones_widget.dart';
 
 import '../activo/activo_model.dart';
 import '../activo/activo_widget.dart';
@@ -21,7 +20,6 @@ import '../home/home_widget.dart';
 import '../activo/cactivo_model.dart';
 import '../activo/cactivo_widget.dart';
 import '../user_session.dart';
-import '../vehicle/vehicle_widget.dart';
 import 'mprofile_model.dart';
 export 'mprofile_model.dart';
 
@@ -35,7 +33,6 @@ class ProfileWidgetWidget extends StatefulWidget {
 class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
   late ProfileWidgetModel _model;
   late UserSession userSession;
-  late VehicleModel vehicleModel;
   late ActivoModel brevetModel;
   // late UserSession userSession; // Agrega esta línea
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -49,16 +46,11 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
     userSession = Provider.of<UserSession>(context, listen: false);
     userSession.fetchUserData();
 
-    vehicleModel = Provider.of<VehicleModel>(context, listen: false);
-    vehicleModel.idusuario = userSession.id;
-
     brevetModel = Provider.of<ActivoModel>(context, listen: false);
     brevetModel.id = userSession.id;
 
     print('userSession.id: ${userSession.id}');
     print('userSession.nroregistro: ${userSession.nroregistro}');
-    print('vehicleModel.idusuario: ${vehicleModel.idusuario}');
-    print('brevetModel.id: ${brevetModel.id}');
   }
 
   @override
@@ -453,139 +445,6 @@ class _ProfileWidgetWidgetState extends State<ProfileWidgetWidget> {
                                 },
                                 child: Text(
                                   'Crear Mantenimiento',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .override(
-                                        fontFamily: 'Plus Jakarta Sans',
-                                        color: Color(0xFF14181B),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: AlignmentDirectional(0.9, 0),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Color(0xFF57636C),
-                              size: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 5,
-                          color: Color(0x3416202A),
-                          offset: Offset(0, 2),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Icon(
-                            Icons.qr_code_2_rounded,
-                            color: Color(0xFF1D2429),
-                            size: 24,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PeticionesWidget()),
-                                  );
-                                },
-                                child: Text(
-                                  'Parametrización por QR',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .override(
-                                        fontFamily: 'Plus Jakarta Sans',
-                                        color: Color(0xFF14181B),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: AlignmentDirectional(0.9, 0),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Color(0xFF57636C),
-                              size: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 5,
-                          color: Color(0x3416202A),
-                          offset: Offset(0, 2),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Icon(
-                            Icons.account_circle_outlined,
-                            color: Color(0xFF57636C),
-                            size: 24,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => ProfileWidget()),
-                                  // );
-                                },
-                                child: Text(
-                                  'Editar Perfil',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
